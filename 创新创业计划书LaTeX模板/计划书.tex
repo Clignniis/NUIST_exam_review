@@ -1,0 +1,159 @@
+%注意，该模板需要中文字体支持，建议在 Windows 系统上用 TeX Live 软件并使用 XeLaTeX 编译器进行编译。
+%在设置标题页时，部分信息的填写采用了表格嵌套的方式，在填写时请注意。
+%导言区需要修改的内容使用了多个百分号在其后方以示意修改。
+%因为黑体字体没有更高的字重，对于要求中的黑体加粗在这里采用的是微软雅黑加粗。
+\PassOptionsToPackage{quiet}{xeCJK}%抑制字体警告
+\documentclass[a4paper,oneside]{ctexbook}
+% 中文默认字体：宋体，粗体以黑体代替，斜体以楷书代替
+\setCJKmainfont   { SimSun } [ BoldFont = SimHei , ItalicFont = KaiTi ]
+% 中文无衬线字体：微软雅黑，粗体为对应的微软雅黑粗体
+\setCJKsansfont   { Microsoft~YaHei } [ BoldFont = *~Bold ]
+% 中文等宽字体：仿宋
+\setCJKmonofont   { FangSong }
+% 设置中文字族
+\setCJKfamilyfont { zhsong  } { SimSun          }
+\setCJKfamilyfont { zhhei   } { SimHei          }
+\setCJKfamilyfont { zhfs    } { FangSong        }
+\setCJKfamilyfont { zhkai   } { KaiTi           }
+\setCJKfamilyfont { zhyahei } { Microsoft~YaHei } [ BoldFont = *~Bold ]
+\setCJKfamilyfont { zhli    } { LiSu            }
+\setCJKfamilyfont { zhyou   } { YouYuan         }
+%设置页面大小
+\usepackage{geometry}
+\geometry{a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm}
+%自定义目录
+\usepackage{titlesec,titletoc}
+\renewcommand{\contentsname}{\centering\mdseries\heiti\zihao{3} 目\qquad\qquad\  录}
+\titlecontents{chapter}[0em]{\songti\zihao{4}}{\thecontentslabel}{}{\titlerule*[3pt]{.}\thecontentspage}
+\titlecontents{section}[1.5em]{\songti\zihao{-4}}{\thecontentslabel}{}{\titlerule*[3pt]{.}\thecontentspage}
+\titlecontents{subsection}[1.8em]{\zihao{-4}}{\thecontentslabel}{}{\titlerule*[3pt]{.}\thecontentspage}
+%标题页
+\usepackage{graphicx,array}
+\title{\includegraphics[scale=0.6]{name}\\\bfseries\zihao{-0}敢创会创-大学生\\\bfseries\zihao{-0}创新创业实务}
+\author{\bfseries\zihao{-0}项目计划书\\}
+\date{\Large\begin{tabular}{|>{\centering\arraybackslash}p{3cm}<{}|>{\centering\arraybackslash}p{10cm}<{}|}
+    \hline
+    项目名称&某某项目\\%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \hline
+    团队名称&某某团队\\%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \hline
+    项目负责人&张三\\%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \hline
+    团队成员&\begin{tabular}{l}
+        李四 王五\\%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        赵六 田七%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \end{tabular}\\
+    \hline
+    联系方式&\begin{tabular}{c}
+        114 514\\%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        191 981\\%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        0%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \end{tabular}\\
+    \hline
+    指导老师&某老师\\%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \hline
+\end{tabular}\\[2ex]
+\heiti\zihao{2}\today\songti
+}
+%章节设置
+\ctexset{
+    chapter={
+        number={\arabic{chapter}},
+        format=\bfseries\yahei\centering\zihao{4},
+        beforeskip=0 pt,
+        afterskip=2 ex,
+        pagestyle=fancy,
+    },
+    section={
+        number={\arabic{chapter}.\arabic{section}},
+        format=\bfseries\yahei\raggedright\zihao{5},
+        beforeskip=1 ex,
+        afterskip=1 ex,
+    },
+    subsection={
+        number={\arabic{chapter}.\arabic{section}.\arabic{subsection}},
+        name={\qquad},
+        format=\songti\raggedright\zihao{5},
+        beforeskip=0 ex,
+        afterskip=0 ex,
+    },
+}
+%设置页眉页脚
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhf{}
+\fancyfoot[C]{第 \thepage 页}
+\fancyhead[c]{这是页眉，写项目名称}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\headrulewidth}{0.4pt} % 注意不用\setlength
+\renewcommand{\footrulewidth}{0pt}
+%抑制边距警告
+\setlength{\headheight}{12.64723pt}
+\addtolength{\topmargin}{-0.64723pt}
+%设置行距
+\linespread{1.56}\selectfont
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{这是章}
+
+文本内容文本内容文本内容文本内容文本内容文本内容
+文本内容文本内容文本内容文本内容文本内容文本内容
+
+\section{这是节}
+
+文本内容文本内容文本内容文本内容文本内容文本内容
+文本内容文本内容文本内容文本内容文本内容文本内容
+
+\subsection{这是小节}
+
+文本内容文本内容文本内容文本内容文本内容文本内容
+文本内容文本内容文本内容文本内容文本内容文本内容
+
+\chapter{这是新的一章}
+
+\section{这是新的一节}
+
+\subsection{这是新的一小小节}
+
+这是图表的处理方法
+
+图表名称前一定要带上字号命令\verb|\zihao{-5}|，设置字号为小五号。%好吧，其实是我在偷懒
+
+\begin{table}[h]
+    \centering
+    \zihao{-5}
+    \begin{tabular}{|c|c|}
+        \hline
+        a&b\\
+        \hline
+        c&d\\
+        \hline
+    \end{tabular}
+    \caption{表格名称}\label{1}
+\end{table}
+
+文本内容文本内容文本内容文本内容文本内容文本内容
+文本内容文本内容文本内容文本内容文本内容文本内容
+文本内容文本内容文本内容文本内容文本内容文本内容
+文本内容文本内容文本内容文本内容文本内容文本内容
+文本内容文本内容文本内容文本内容文本内容文本内容
+
+\begin{figure}[h]
+    \centering
+    \zihao{-5}
+    \caption{插入校名矢量图}\label{2}
+    \includegraphics[scale=0.8]{name.pdf}
+\end{figure}
+
+这里对表格\ref{1}，和图片\ref{2}进行交叉引用
+
+文本内容文本内容文本内容文本内容文本内容文本内容
+文本内容文本内容文本内容文本内容文本内容文本内容
+
+\end{document}

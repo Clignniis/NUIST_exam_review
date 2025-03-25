@@ -1,0 +1,74 @@
+\contentsline {chapter}{\numberline {第一章\hspace {.3em}}热力学的基本规律}{4}{chapter.1}%
+\contentsline {section}{\numberline {1.1}热力学系统(教材P2)}{4}{section.1.1}%
+\contentsline {section}{\numberline {1.2}几个与物态方程有关的物理量(教材P7)}{4}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}体胀参数}{4}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}压强系数}{4}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}等温压缩系数}{4}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}3个偏导数和3个系数之间的关系}{5}{subsection.1.2.4}%
+\contentsline {section}{\numberline {1.3}物态方程(教材P8)}{5}{section.1.3}%
+\contentsline {section}{\numberline {1.4}热力学第零定律(热平衡定律)(教材P5)}{5}{section.1.4}%
+\contentsline {section}{\numberline {1.5}热力学第一定律(教材P17)}{5}{section.1.5}%
+\contentsline {section}{\numberline {1.6}热力学第二定律(2种表述，教材P25)}{6}{section.1.6}%
+\contentsline {section}{\numberline {1.7}热力学第三定律(教材P105-106)}{6}{section.1.7}%
+\contentsline {section}{\numberline {1.8}热容(教材P17)}{6}{section.1.8}%
+\contentsline {subsection}{\numberline {1.8.1}等容热熔\(C_V\)(体积不变，外界对系统不做功)}{6}{subsection.1.8.1}%
+\contentsline {subsection}{\numberline {1.8.2}等压热容\(C_p\)(压强不变)}{6}{subsection.1.8.2}%
+\contentsline {subsection}{\numberline {1.8.3}理想气体满足\(C_p-C_V=nR\)(教材P19)}{6}{subsection.1.8.3}%
+\contentsline {section}{\numberline {1.9}焓(教材P17)}{7}{section.1.9}%
+\contentsline {section}{\numberline {1.10}焦耳定律}{8}{section.1.10}%
+\contentsline {section}{\numberline {1.11}卡诺循环(教材P22)}{8}{section.1.11}%
+\contentsline {subsection}{\numberline {1.11.1}热机(顺时针)(热机效率证明过程要会！)}{8}{subsection.1.11.1}%
+\contentsline {subsubsection}{等温膨胀过程}{8}{subsubsection*.2}%
+\contentsline {subsubsection}{绝热膨胀过程}{9}{subsubsection*.3}%
+\contentsline {subsubsection}{等温压缩过程}{9}{subsubsection*.4}%
+\contentsline {subsubsection}{绝热压缩过程}{9}{subsubsection*.5}%
+\contentsline {subsubsection}{效率}{9}{subsubsection*.6}%
+\contentsline {subsection}{\numberline {1.11.2}制冷机(逆时针)}{10}{subsection.1.11.2}%
+\contentsline {section}{\numberline {1.12}卡诺定理(教材P27)}{10}{section.1.12}%
+\contentsline {section}{\numberline {1.13}克拉修斯不等式}{11}{section.1.13}%
+\contentsline {section}{\numberline {1.14}热力学温标(不怎么考，教材P28)}{11}{section.1.14}%
+\contentsline {section}{\numberline {1.15}熵(教材P31)}{11}{section.1.15}%
+\contentsline {section}{\numberline {1.16}理想气体的熵(教材P33)}{11}{section.1.16}%
+\contentsline {subsection}{\numberline {1.16.1}熵与等压热容}{11}{subsection.1.16.1}%
+\contentsline {subsection}{\numberline {1.16.2}熵与等容热容}{12}{subsection.1.16.2}%
+\contentsline {section}{\numberline {1.17}熵增加原理(教材P38)}{12}{section.1.17}%
+\contentsline {section}{\numberline {1.18}自由能(是等温等容系统的判据)(教材P38)}{13}{section.1.18}%
+\contentsline {section}{\numberline {1.19}吉布斯函数(是等温等压系统的判据)(教材P39)}{13}{section.1.19}%
+\contentsline {chapter}{\numberline {第二章\hspace {.3em}}均匀物质的热力学性质}{14}{chapter.2}%
+\contentsline {section}{\numberline {2.1}内能，焓，自由能和吉布斯函数的全微分(教材P42)}{14}{section.2.1}%
+\contentsline {section}{\numberline {2.2}麦克斯韦关系(教材P43)}{14}{section.2.2}%
+\contentsline {section}{\numberline {2.3}麦克斯韦关系的应用(能态与焓态关系)(教材P43-45)}{15}{section.2.3}%
+\contentsline {section}{\numberline {2.4}雅可比行列式(教材P294-295)}{15}{section.2.4}%
+\contentsline {section}{\numberline {2.5}气温的节流过程(教材P46)}{16}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}气流节流的特点}{16}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}焦汤系数(焦耳——汤姆孙系数，教材P47)}{16}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}理想气体在节流前后温度不变}{16}{subsection.2.5.3}%
+\contentsline {section}{\numberline {2.6}绝热膨胀过程(教材P49)}{17}{section.2.6}%
+\contentsline {section}{\numberline {2.7}内能的积分表达式(教材P49)}{17}{section.2.7}%
+\contentsline {section}{\numberline {2.8}熵的积分表达式(教材P49-50)}{17}{section.2.8}%
+\contentsline {chapter}{\numberline {第三章\hspace {.3em}}单元系的相变}{18}{chapter.3}%
+\contentsline {section}{\numberline {3.1}平衡判据(教材P63-64)}{18}{section.3.1}%
+\contentsline {subsubsection}{熵判据(等容等内能)——基本判据}{18}{subsubsection*.7}%
+\contentsline {subsubsection}{自由能判据(等温等容过程)}{18}{subsubsection*.8}%
+\contentsline {subsection}{\numberline {3.1.1}吉布斯函数判据(等温等压过程)}{18}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}焓判据(等熵等压过程)}{19}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}系统的平衡状态(教材P64)}{19}{section.3.2}%
+\contentsline {section}{\numberline {3.3}系统稳定性的平衡条件(教材P65-66)}{19}{section.3.3}%
+\contentsline {section}{\numberline {3.4}部分概念(书上没有，这里归纳一下)}{19}{section.3.4}%
+\contentsline {section}{\numberline {3.5}化学势(教材P67)}{20}{section.3.5}%
+\contentsline {section}{\numberline {3.6}开系的内能，焓，自由能(教材P67)}{20}{section.3.6}%
+\contentsline {section}{\numberline {3.7}巨热力势(教材P67)}{21}{section.3.7}%
+\contentsline {section}{\numberline {3.8}单元系的复相平衡条件(教材P68-69)}{21}{section.3.8}%
+\contentsline {section}{\numberline {3.9}扰动趋势(教材P69)}{21}{section.3.9}%
+\contentsline {section}{\numberline {3.10}单元复相系的相图(教材P69)}{21}{section.3.10}%
+\contentsline {subsection}{\numberline {3.10.1}“三线两点”}{21}{subsection.3.10.1}%
+\contentsline {subsection}{\numberline {3.10.2}相图(P-T图)}{22}{subsection.3.10.2}%
+\contentsline {section}{\numberline {3.11}克拉伯龙方程(教材P71-72)}{22}{section.3.11}%
+\contentsline {subsection}{\numberline {3.11.1}相变潜热\(L\)}{22}{subsection.3.11.1}%
+\contentsline {subsection}{\numberline {3.11.2}证明过程}{22}{subsection.3.11.2}%
+\contentsline {section}{\numberline {3.12}临界点和气液两相的转变(教材P73)}{24}{section.3.12}%
+\contentsline {subsection}{\numberline {3.12.1}等温线图}{24}{subsection.3.12.1}%
+\contentsline {subsection}{\numberline {3.12.2}范式气体的等温线(教材P73-74)}{24}{subsection.3.12.2}%
+\contentsline {subsection}{\numberline {3.12.3}麦克斯韦等面积法则(教材P74)}{24}{subsection.3.12.3}%
+\contentsline {chapter}{\numberline {第四章\hspace {.3em}}多元系的复相平衡}{26}{chapter.4}%
+\contentsline {section}{\numberline {4.1}吉布斯相率(教材P93-94)}{26}{section.4.1}%

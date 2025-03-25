@@ -1,0 +1,89 @@
+\contentsline {chapter}{\numberline {第一章\hspace {.3em}}基础概念}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}物理性质(背)}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}流动性}{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}黏性}{1}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}压缩性}{1}{subsection.1.1.3}%
+\contentsline {section}{\numberline {1.2}流体的连续介质假设--宏观理论模型}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}流体的速度和加速度}{2}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}拉格朗日方法}{2}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}欧拉方法(场的观点)}{2}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}两种变量之间的转换}{2}{subsection.1.3.3}%
+\contentsline {subsubsection}{拉格朗日变量转化为欧拉变量}{2}{subsubsection*.7}%
+\contentsline {subsubsection}{欧拉变量转化为拉格朗日变量}{2}{subsubsection*.8}%
+\contentsline {subsection}{\numberline {1.3.4}流体的加速度}{2}{subsection.1.3.4}%
+\contentsline {section}{\numberline {1.4}迹线和流线}{3}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}迹线}{3}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}流线}{3}{subsection.1.4.2}%
+\contentsline {section}{\numberline {1.5}速度分解}{4}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}亥姆霍兹速度分解定理}{4}{subsection.1.5.1}%
+\contentsline {section}{\numberline {1.6}散度和涡度}{5}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}散度定义为\(\nabla \cdot \overrightarrow {V}\)}{5}{subsection.1.6.1}%
+\contentsline {subsection}{\numberline {1.6.2}旋度(涡度)定义为\(\nabla \times \overrightarrow {V}\)}{5}{subsection.1.6.2}%
+\contentsline {section}{\numberline {1.7}速度流函数和势函数}{5}{section.1.7}%
+\contentsline {subsection}{\numberline {1.7.1}无旋流动必然存在势函数。}{5}{subsection.1.7.1}%
+\contentsline {subsection}{\numberline {1.7.2}无旋流动}{6}{subsection.1.7.2}%
+\contentsline {subsection}{\numberline {1.7.3}流函数\(\mitpsi (x,y,t)\)二维无辐散}{6}{subsection.1.7.3}%
+\contentsline {section}{\numberline {1.8}总结散度旋度以及流函数，势函数}{7}{section.1.8}%
+\contentsline {subsection}{\numberline {1.8.1}rot 涡度\(\nabla \times \overrightarrow {V}\)}{7}{subsection.1.8.1}%
+\contentsline {subsection}{\numberline {1.8.2}div 散度\(\nabla \cdot \overrightarrow {V}\)}{7}{subsection.1.8.2}%
+\contentsline {subsection}{\numberline {1.8.3}势函数(运动的有无旋)}{8}{subsection.1.8.3}%
+\contentsline {subsection}{\numberline {1.8.4}流函数(运动的有无辐散)}{8}{subsection.1.8.4}%
+\contentsline {chapter}{\numberline {第二章\hspace {.3em}}流体运动的控制方程}{10}{chapter.2}%
+\contentsline {section}{\numberline {2.1}流体的连续方程}{10}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}拉格朗日连续方程}{10}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}欧拉连续方程}{11}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}自由表面的流体连续方程，在第四章会用到}{12}{subsection.2.1.3}%
+\contentsline {section}{\numberline {2.2}表面应力}{12}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}质量力(可能会考)}{12}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}表面力}{13}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}应力张量}{13}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}广义牛顿黏性假设}{14}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}牛顿黏性假设}{14}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}广义牛顿黏性假设}{14}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}流体的运动方程}{15}{section.2.4}%
+\contentsline {section}{\numberline {2.5}能量方程}{16}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}总能量机械能和热能(内能)}{16}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}动能和内能\(c_0T+\dfrac {1}{2}\overrightarrow {V}^2\)(单位质量)}{16}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}质量力做功率}{16}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}表面力}{16}{subsection.2.5.4}%
+\contentsline {subsection}{\numberline {2.5.5}热流入量变化率}{16}{subsection.2.5.5}%
+\contentsline {subsection}{\numberline {2.5.6}流体系统总能量}{16}{subsection.2.5.6}%
+\contentsline {subsection}{\numberline {2.5.7}伯努利方程}{17}{subsection.2.5.7}%
+\contentsline {chapter}{\numberline {第三章\hspace {.3em}}实验流体力学的基本原理和方法}{18}{chapter.3}%
+\contentsline {section}{\numberline {3.1}量纲}{18}{section.3.1}%
+\contentsline {section}{\numberline {3.2}相似判据}{18}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}\(\mitpi \)定理方法}{19}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}方程分析法}{19}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}定义无量纲数}{19}{subsection.3.2.3}%
+\contentsline {subsubsection}{(特征)雷诺数\(Re\)}{19}{subsubsection*.12}%
+\contentsline {subsubsection}{(特征)弗劳德数\(Fr\)}{20}{subsubsection*.13}%
+\contentsline {subsubsection}{斯特劳哈尔数\(Sr\)}{20}{subsubsection*.14}%
+\contentsline {subsubsection}{欧拉数\(Eu\)}{20}{subsubsection*.15}%
+\contentsline {subsubsection}{罗斯贝数\(Ro\)衡量旋转效应}{20}{subsubsection*.16}%
+\contentsline {chapter}{\numberline {第四章\hspace {.3em}}流体涡旋动力学基础}{21}{chapter.4}%
+\contentsline {section}{\numberline {4.1}环流的起源}{21}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}开尔文定理(速度环流的守恒定律)}{21}{subsection.4.1.1}%
+\contentsline {subsubsection}{环流的变化(环流加速度)}{21}{subsubsection*.17}%
+\contentsline {subsubsection}{流体的正压性和斜压性}{21}{subsubsection*.18}%
+\contentsline {subsubsection}{普遍情况下的环流变化表达式}{22}{subsubsection*.19}%
+\contentsline {subsubsection}{速度环流的变化，主要由以下3项所引起}{22}{subsubsection*.20}%
+\contentsline {subsection}{\numberline {4.1.2}皮耶克尼斯定理}{22}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}涡度方程}{23}{subsection.4.1.3}%
+\contentsline {subsubsection}{力管项或斜压项}{23}{subsubsection*.22}%
+\contentsline {subsubsection}{散度项}{23}{subsubsection*.23}%
+\contentsline {subsubsection}{扭曲项}{23}{subsubsection*.24}%
+\contentsline {subsubsection}{黏性扩散项}{24}{subsubsection*.25}%
+\contentsline {subsection}{\numberline {4.1.4}总结}{24}{subsection.4.1.4}%
+\contentsline {chapter}{\numberline {第五章\hspace {.3em}}流体波动}{25}{chapter.5}%
+\contentsline {section}{\numberline {5.1}波参数}{25}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}波长\(L\)}{25}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}位相}{25}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}波数}{25}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}圆频率}{25}{subsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.1.5}相速}{26}{subsection.5.1.5}%
+\contentsline {section}{\numberline {5.2}水面重力波(微小扰动)}{26}{section.5.2}%
+\contentsline {section}{\numberline {5.3}上轻下重流体间的界面波}{27}{section.5.3}%
+\contentsline {chapter}{\numberline {第六章\hspace {.3em}}旋转流体动力学}{30}{chapter.6}%
+\contentsline {section}{\numberline {6.1}速度推导加入旋转惯性项}{30}{section.6.1}%
+\contentsline {section}{\numberline {6.2}罗斯贝数衡量旋转效应}{30}{section.6.2}%
+\contentsline {section}{\numberline {6.3}科氏力方向的判断(右手螺旋定则)}{31}{section.6.3}%
