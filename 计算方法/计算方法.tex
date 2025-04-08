@@ -1,0 +1,2342 @@
+\documentclass[UTF8,a4paper,11pt,oneside]{ctexbook}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphfig}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{anyfontsize}
+\usepackage{circuitikz}
+\usepackage{multirow}
+\usepackage{geometry}
+\usepackage[toc]{multitoc}
+\usepackage[colorlinks]{hyperref}
+\usetikzlibrary{calc}
+\usetikzlibrary{math}
+\geometry{a4paper,left=2.5cm,right=2.5cm,top=3cm,bottom=3cm}
+\setlength{\headheight}{12.64723pt}
+\addtolength{\topmargin}{-0.64723pt}
+\setcounter{tocdepth}{1}
+\linespread{1.3}\selectfont
+\title{计算方法}
+\author{Cls\thanks{\href{https://github.com/Clignniis}{点击进入资料的github仓库}}}
+\date{期末复习资料}
+\begin{document}
+\frontmatter
+
+\maketitle
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{引论}
+
+\section{误差来源、分类}
+\begin{enumerate}
+    \item 模型误差：建立数学模型，这就要对实际问题进行抽象、简化，抓住主要特征、舍去次要特征，产生这种误差叫做模型误差；
+    \item 观测误差：由于测量工具的精度、观测方法或客观条件的限制，使数据含有测量误差，这类误差叫做观测误差或数据误差；
+    \item 截断误差(方法误差)：精确公式用近似公式代替时，所产生的误差叫截断误差；
+    \item 舍入误差：由于计算机存储字长有限，用有限位数字代替精确数，这种误差叫做舍入误差。
+\end{enumerate}
+
+\section{误差、有效数字}
+
+\subsection{绝对误差、绝对误差限}
+
+绝对误差定义：\(e^*=x^*-x\)，其中\(x^*\)为准确值\(x\)的近似值。
+
+绝对误差限：\(\varepsilon^*=|e^*|\)的一个上界。
+
+注：绝对误差还不能完全表示近似值的好坏。
+
+\subsection{相对误差、相对误差限}
+
+定义：\(e_r^*=\frac{e^*}{x}\)
+
+例如：\(x=10\pm1,y=1000±5,\frac{\varepsilon_x^*}{|x|}=10\%,\frac{\varepsilon_y^*}{|y|}=0.5\%\)
+
+实际计算时，相对误差通常取\(e_r^*=\frac{e^*}{x^*}=\frac{x^*-x}{x^*}\)
+
+注：绝对误差、绝对误差限有量纲；相对误差、相对误差限无量纲。
+
+\subsection{有效数字}
+
+若近似值\(x^*\)的误差限是某一位数字的半个单位，该位到\(x^*\)的第一位数字共有\(n\)位，就说\(x^*\)有\(n\)位有效数字，可表示为
+\[
+x^*=\pm10^m\times(a_1+a_2\times10^{-1}+\cdots+a_n\times10^{-(n-1)})
+\]
+
+其中\(a_i(i=1,2,\ldots,n)\)是0到9中的一个数字，\(a_1\neq0\)，\(m\)为整数，且\(|x-x^*|\leq\frac{1}{2}\times10^{m-n+1}\)
+
+例如，取\(x^*=3.14\)做\(\pi\)的近似值，\(x^*\)就看3位有效数字，取\(x^*=3.1416\)，\(x^*\)就有5位有效数字。
+
+\subsubsection{对于“四舍五入”的绝对误差限的说明}
+\begin{enumerate}
+    \item 通过四舍五入得到的数都是有效数；
+    \item 有效数字位数与小数点的位置无关；
+    \item 一般来说，有效位数越多，其误差值越小，但也有例外（如设\(x=1000\)，它的两个近似值999.9和1000.1，误差相同为0.1，分别有3，4位有效数字）。
+\end{enumerate}
+
+设近似数表示为\(x^*=\pm10^m\times(a_1+a_2\times10^{-1}+\cdots+a_n\times10^{-(l-1)})\)，其中\(a_i(i=1,2,\ldots,l)\)是0到9中的一个数字，\(a_1\neq0\)，\(m\)为正整数，若\(x^*\)具有\(n\)位有效数字，则其相对误差限\(\varepsilon_r^*\leq\frac{1}{2a_l}\times10^{-(n+1)}\)
+
+反之，若\(x^*\)的相对误差限\(\varepsilon_r^*\leq\frac{1}{2a_1+1}\times10^{-(n+1)}\)，则\(x^*\)至少具有\(n\)位有效数字。
+
+\subsection{数值计算的误差估计}
+
+记忆时可根据函数的导数法则，本质是误差的一阶泰勒展开。
+\begin{gather*}
+    \varepsilon(x_1^*\pm x_2^*)\approx\varepsilon(x_1^*)\pm\varepsilon(x_2^*)\\
+    \varepsilon(x_1^*x_2^*)\approx x_1^*\varepsilon(x_2^*)+x_2^*\varepsilon(x_1^*)\\
+    \varepsilon\left(\frac{x_1^*}{x_2^*}\right)\approx\frac{x_2^*\varepsilon(x_1^*)-x_1^*\varepsilon(x_2^*)}{x_2^{*2}}\\
+    \varepsilon(y^*)\approx\frac{\partial f(x_1^*,x_2^*)}{\partial x_1^*}\varepsilon(x_1^*)+\frac{\partial f(x_1^*,x_2^*)}{\partial x_2^*}\varepsilon(x_2^*)
+\end{gather*}
+
+\subsection{避免误差危害}
+
+一个算法如果输入数据有误差，而在计算过程中舍入误差不增长，则称此算法是数值稳定的，否则称此算法为不稳定的。
+
+数值计算中为防止有效数字损失，通常要避免两相近数相减和用绝对值很小的数做除数，还要注意运算次序和减少运算次数。例如：（常考题，都用右端算式代替左端。）
+\begin{enumerate}
+    \item 求\(x²-16x+1=0\)的小正根：\(x_2=8-\sqrt{63}\approx8-7.94=0.06=x_2^*\)只有一位有效数字，若改用\(x_2=8-\sqrt{63}=\frac{1}{8+\sqrt{63}}\approx\frac{1}{15.94}\approx0.0627\)具有三位有效数字。这样便可以通过改变计算公式可以避免或者减少有效数字的损失。
+    \item 类似地，如果\(x_1\)和\(x_2\)接近时，则用\(\lg x_1-\lg x_2=\lg \frac{x_1}{x_2}\)，可以避免有效数字的损失。
+    \item 当\(x\)很大时，\(\sqrt{x+1}-\sqrt{x}=\frac{1}{\sqrt{x+1}+\sqrt{x}}\)。
+\end{enumerate}
+
+\subsection{多项式求值的秦九韶算法}
+
+一个计算问题如果能减少运算次数，不但可节省计算量还可减少舍入误差，这是算法设计中一个重要原则。以求多项式为例，设给定\(n\)次多项式
+\[
+p(x)=a_0x^n+a_1x^{n-1}+\cdots+a_{n-1}x+a_n,a_0\neq0
+\]
+
+求\(x^*\)处的值\(p(x^*)\)。它可表示为
+\[
+\begin{cases}
+    b_0=a_0\\
+    b_i=b_{i-1}x+a_i,i=1,2,\ldots,n\\
+\end{cases}
+\]
+
+则\(b_n=p(x^*)\)即为所求。此算法被称为秦九韶算法。
+
+\chapter{插值法}
+
+\section{预备知识}
+
+\subsection{函数逼近}
+
+函数\(y=f(x)\)不知其表达式，其值只能通过实验或观测的到，考虑用一个较为简单的函数\(P(x)\)近似地表示\(f(x)\)，其中\(f(x)\)为被逼近函数\(P(x)\)为逼近函数。
+
+逼近的方法：插值与拟合。
+
+\subsection{插值问题}
+
+假设\(f\)在\([a,b]\)上连续\(\{x_i\}\subset[a,b]\)且互不相同。若存在简单函数\(P(x)\)使得\(P(x_i)=y_i\quad(i=0,1,2\dots)\)，则称\(P(x)\)为\(f(x)\)的插值函数。其中\(P(x_i)=y_i\)被称为插值条件。
+
+插值函数\(P(x)\)有各种类型，如多项式，三角函数……
+
+\subsection{插值多项式的存在为唯一性}
+\[
+P(x)=a_0+a_1\times x+\cdots+a_nx^n\Rightarrow a_0+a_1\times x_i+\cdots+a_nx_i^n=y_i(i=0,1\dots)
+\]
+
+其系数行列式刚好为范德蒙德行列式：
+\[U=\begin{vmatrix}
+    1&x_0&x_0^2&\cdots&x_0^n\\
+    1&x_1&x_1^2&\cdots&x_1^n\\
+    \vdots&\vdots&\vdots&\ddots&\vdots\\
+    1&x_n&x_n^2&\cdots&x_n^n
+\end{vmatrix}=\prod_{\begin{subarray}{c}
+    i,j=0\\
+    i>j
+\end{subarray}}^n(x_i-x_j)\neq0\]
+
+即\((a_0,a_1,\ldots,a_n)\)存在且唯一的\((n+1)\)个插值节点可构造\(n\)次插值多项式。
+
+\section{插值基函数与Lagrange插值}
+
+\subsection{计算}
+
+\(n=1\)时，设\(y_i=f(x_i)(i=0,1)\)，作直线方程\(y=L_1(x)\)，两点式插值：
+\[
+L_1(x)=\frac{x-x_1}{x_0-x_1}y_0+\frac{x-x_0}{x_1-x_0}y_1
+\]
+
+\(n=2\)时，设\(y_i=f(x_i)(i=0,1,2)\)，作直线方程\(y=L_2(x)\)，三点式插值：
+\[
+L_2=(x)=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}y_0+\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}y_1+\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}y_2
+\]
+
+\subsection{推广}
+
+\(n=1\)时，记\(l_0(x)=\frac{x-x_1}{x_0-x_1},l_1(x)=\frac{x-x_0}{x_1-x_0}\)，则
+\[
+L_1(x)=l_0(x)y_0+l_1(x)y_1
+\]
+
+\(n=2\)时，记\(l_0(x)=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)},l_1(x)=\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)},l_2(x)=\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}\)，则
+\[
+L_2(x)=l_0(x)y_0+l_1(x)y_1+l_2(x)y_2
+\]
+
+一般地，令：\(l_k=\prod\limits_{\begin{subarray}{c}
+    j\neq k\\
+    j=0
+\end{subarray}}^n\frac{(x-x_j)}{(x_k-x_j)},k=0,1,2\ldots\)
+\[
+L_n(x)=\sum_{k=0}^nl_k(x)y_k
+\]
+
+其中称\(l_k(x)\)为 Lagrange 插值基函数，\(L_n(x)\)为 Lagrange 插值多项式
+\[
+l_k(x_i)=\begin{cases}
+    0,&i\neq k\\
+    1,&i=k
+\end{cases}(i,k=0,1,2\ldots)
+\]
+\subsection{Lagrange插值误差}
+
+设\(f\)在\([a,b]\)上\(n+1\)阶可微，\(P_n(x)\)为\(f\)的\(n\)次插值多项式，则
+\[
+R_n(x)=f(x)-P_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)}W_{n+1}(x)
+\]
+
+其中\(W_{n+1}(x)=\prod\limits_{i=0}^n(x-x_i)\)，\(\xi\)依赖于\(x\)。\\
+\textbf{证明：}
+
+易得：\(x_0,x_1,\ldots,x_n\)均为\(R_n(x)\)的零点，根据零点可设:
+\[
+R_n(x)=K(x)(x-x_0)(x-x_1)\cdots(x-x_n)=K(x)W_{n+1}(x)
+\]
+
+作辅助函数：\(F(t)=f(t)-P_n(t)-R_n(t)\)，有零点：\(x_0,x_1,\ldots,x_n\)。
+
+由罗尔中值定理可知：\(F(n+1)\)有1个零点，\(\xi \in[a,b]\)，则：
+\[
+F^{(n+1)}(\xi)-K(x)(n+1)!=0
+\]
+
+得到：
+\[
+K(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}
+\]
+
+利用余项表达式：
+\[
+R_n(x)=f(x)-P_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}W_{n+1}(x)
+\]
+
+当\(f(x)=x^k(k\leq n)\)时，由于\(f^{(n+1)}(x)=0\)，于是有：
+\[
+R_n(x)=x^k-\sum_{i=0}^nx_i^kl_i(x)=0
+\]
+
+由此得：
+\[
+\sum_{i=0}^nx_i^kl_i(x)=x^k,k=0,1,\ldots,n
+\]
+
+当\(k=0\)时，有:（填空题常考）
+\[
+\sum_{i=0}^nl_i(x)=1
+\]
+
+\section{牛顿插值}
+
+\subsection{计算}
+
+记\(f[x,y]=\frac{f(y)-f(x)}{y-x}\)（一阶差商）\(f[x,y,z]=\frac{f[y,z]-f[x,y]}{z-x}\)（二阶差商）。则：
+
+两点公式为
+\[
+N_1(x)=f(x_0)+f[x_0,x_1](x-x_0)
+\]
+
+三点公式为
+\[
+N_2(x)=f(x_0)+f[x_0,x_1](x-x_0)+f[x_0,x_1,x_2](x-x_0)(x-x_1)
+\]
+
+基函数为
+\[
+1,(x-x_0),(x-x_0)(x-x_1),\ldots
+\]
+
+其系数称为均差（差商）。
+
+一般地：
+\[
+f[x_0,x_1,\ldots,x_{k-1},x_k]=\frac{f[x_1,x_2,\ldots,x_{k-1},x_k]-f[x_0,x_1,\ldots,x_{k-2},x_{x-1}]}{x_k-x_0}
+\]
+
+均差与节点的排列顺序无关，从而：
+\[
+f[x_0,x_1,x_2,\ldots,x_{k-1},x_k]=[x_{k-1},x_1,\ldots,x_{k-2},x_0,x_k]
+\]
+\begin{table}[ht]
+    \centering
+    \caption{差商表}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \(x_k\) & \(f(x_k)\) & 一阶差商 & 二阶差商 & 三阶差商 & 四阶差商 \\
+        \hline
+        \(x_0\) & \(f(x_0)\) & & & & \\
+        \hline
+        \(x_1\) & \(f(x_1)\) & \(f[x_0,x_1]\) & & & \\
+        \hline
+        \(x_2\) & \(f(x_2)\) & \(f[x_1,x_2]\) & \(f[x_0,x_1,x_2]\) & & \\
+        \hline
+        \(x_3\) & \(f(x_3)\) & \(f[x_2,x_3]\) & \(f[x_1,x_2,x_3]\) & \(F[x_0,x_1,x_2,x_3]\) & \\
+        \hline
+        \(x_4\) & \(f(x_4)\) & \(f[x_3,x_4]\) & \(f[x_2,x_3,x_4]\) & \(f[x_1,x_2,x_3,x_4]\) & \(f[x_0,x_1,x_2,\ldots]\) \\
+        \hline
+    \end{tabular}
+\end{table}
+
+牛顿插值只需要第一排的差商
+
+\subsubsection{牛顿插值公式}
+\[
+f(x)=f(x_0)+f[x_0,x_1](x-x_0)+\cdots+f[x_0,\ldots,x_n]\prod_{i=0}^{n-1}(x-x_i)+f[x,x_0,\ldots,x_n]\prod_{j=0}^n(x-x_j)
+\]
+
+\subsection{等距节点的牛顿插值（了解）}
+
+设\(f_k=f(x_k)\)，则
+
+称\(\Delta f_k=f_{k+1}-f_k\)为\(f\)在\(x=x_k\)处的一阶向前差分，\(\Delta\)称为向前差分算子。
+
+称\(\nabla f_k=f_{k}-f_{k-1}\)为\(f\)在\(x=x_k\)处的一阶向后差分，\(\nabla\)称为简后差分算子。
+
+\(\Delta^mf_k=\Delta^{m-1}f_{k+1}-\Delta^{m-1}f_k\)为\(f\)在\(x=x_k\)处的\(m\)阶向前差分。
+
+\(\nabla^mf_k=\nabla^{m-1}f_k-\nabla^{m-1}f_{k-1}\)为\(f\)在\(x=x_k\)处的\(m\)阶向后差分。
+\[
+\Delta^mf_k=\nabla^mf_{k+m}
+\]
+
+均差与差分有如下关系
+\[
+f[x_0,x_1,\ldots,x_k]=\frac{\Delta^kf_0}{k!h^k}=f[x_k,x_{k-1},x,\ldots,x_0]=\frac{\nabla^kf_k}{k!h^k}
+\]
+
+\subsubsection{前插公式（\(x\)在\(x_0\)附近）}
+
+设\(x_k=x_0+kh(h=0,1,2,\ldots,n)\)插值点\(x=x_0+th(t=0)\)
+
+则\(h=\frac{x_n-x_0}{n},t=\frac{x-x_0}{h}\Rightarrow x-x_k=(t-k)h\)
+
+牛顿插值公式中一项式化为：
+\begin{gather*}
+    f[x_0,x_1,\ldots,x_k]\prod_{i=0}^{k-1}(x-x_i)=\frac{\Delta^kf_0}{k!h^k}\prod_{i=0}^{k-1}(t-i)h=\frac{\Delta^kf_0}{k!}\prod_{i=0}^{k-1}(t-i)\\
+    \Rightarrow N_n(x)=N_n(x_0+th)=f_0+\sum_{k=1}^n\frac{\Delta^kf_0}{k!}\prod_{i=0}^{k-1}(t-i)
+\end{gather*}
+
+\subsubsection{后插公式（\(x\)在\(x_n\)附近）}
+\begin{gather*}
+    x_{n-k}=x_n+kh,x=x_n+th(t<0)\\
+    (h=\frac{x_n-x_0}{n},t=\frac{x-x_n}{h},x-x_{n-k}=(t+k)h)\\
+    \therefore N_n(x)=f_0+\sum_{k=1}^n\frac{\nabla^kf_0}{k!}\prod_{i=0}^{k-1}(t+i)
+\end{gather*}
+
+\section{分段插值}
+
+插值多项式的次数越高，误差不一定越小。
+
+\subsection{分段线性 Lagrange 插值}
+
+取相邻节点，构成插值子区间：\([x_k,x_{k+1}],h_k=x_{k+1}-x_k\)
+
+在子区间上应用两点公式：\(L_n^{(k)}(x)=\frac{x-x_{k+1}}{x_k-x_{k+1}}y_k+\frac{x-x_k}{x_{k+1}-x_k}y_{k+1}\)
+
+令
+\[
+L_n(x)=
+\begin{cases}
+    L_n^0(x)&x\in[x_0,x_1]\\
+    L_n^1(x)&x\in[x_1,x_2]\\
+    &\vdots\\
+    L_n^{(n-1)}(x)&x\in[x_{n-1},x_n]\\
+\end{cases}
+\]
+
+（分段函数，计算简单，但光滑性较差）
+
+\subsection{分段2次插值}
+
+将每3个节点分为一段，每段都为抛物线
+
+在每个区间内利用三点 Lagrange 插值即可，(\(L_3(x)=L_0y_0+L_1y_1+L_2y_2\))
+
+\section{厄米特插值}
+
+分段多次插值无法保证插值函数在节点处的光滑性，希望得到光滑性的插值函数(与原函数在节点处相切)，这就是插值问题。
+
+已知
+\(y_i=f(x_i),y_i'=f'(x_i),i=0,1,\ldots,n\)求插值函数\(H(x)\)满足：\(H(x_i)=y_i,H'(x_i)=y_i'\)
+
+\subsection{两点三次插值}
+\[
+H(x)=y_0\alpha_0(x)+y_0'\beta_0(x)+y_1\alpha_1(x)+y_1'\beta_1(x)
+\]
+
+其中
+\begin{gather*}
+    \alpha_i(x)=\left(1-2\frac{x-x_i}{x_i-x_j}\right)\left(\frac{x-x_j}{x_i-x_j}\right)^2\quad(i=0,1)\\
+    \beta_i(x)=(x-x_i)\left(\frac{(x-x_i)}{(x_i-x_j)}\right)^2\quad(i=0,1)
+\end{gather*}
+
+\chapter{最小二乘法}
+
+\section{定义}
+
+在函数类\(\phi=\mathrm{span}\{\varphi_0(x),\varphi_1(x),\ldots,\varphi_n(x)\}\)中求函数\(S^*(x)=\sum\limits_{j=0}^na_j^*\rho_j(x)\)，使
+\[
+\sum\limits_{i=0}^mW_i(S^*(x_i)-y_i)^2=\min\limits_{(S\in\phi)}\sum\limits_{i=0}^mW_i(S(x_i)-y_i)^2
+\]
+
+称\(S^*(x)\)为最小二乘拟合函数。
+
+\section{计算}
+
+如何确定\(S^*\)的构造，即求\(\phi=\mathrm{span}\{\varphi_0(x),\varphi_1(x),\ldots,\varphi_n(x)\}\)。
+
+通过观繁数据点的分布情况，若像直线，则设\(S^*(x)=a_0+a_1x\)；若像抛物线，则设\(S^*(x)=a_0+a_1x+a_2x^2\)
+
+设\(\varphi=(a_0,a_1,\ldots,a_n)=\sum\limits_{i=0}^{m}W_i(S^*(x_i)-y_i)^2=\sum\limits_{i=0}^mW_i(\sum\limits_{j=0}^na_j\varphi_j(x_i)-y_i)^2\)
+
+注：基函数确定后，因为节点已知，所以\(\sum\limits_{i=0}^mW_i(S^*(x_i)-y_i)^2\)的值只与\(a_i\)有关。
+
+若要\(\sum\limits_{i=0}^mW_i(S^*(x_i)-y_i)^2\)最小，则使\(\varphi\)最小，取其极小值\((a_0^*,a_1^*,\ldots,a_n^*)\Rightarrow\frac{\partial\varphi}{\partial a_k}=0\)（必要条件）
+\begin{gather*}
+    2\sum_{i=0}^mW_i\left(\sum_{j=0}^na_j\varphi_j(x_i)-y_i\right)\varphi_k(x_i)W_i=0\\
+    \sum_{i=0}^mW_i\left(\sum_{j=0}^na_j\varphi_j(x_i)-y_i\right)\varphi_k(x_i)=0\\
+    \sum_{i=0}^mW_i\varphi_k(x_i)\sum_{j=0}^na_j\varphi_j(x_i)=\sum_{i=0}^mW_iy_i\varphi_k(x_i)\\
+    \sum_{j=0}^n\left(\sum_{i=0}^mW_i\varphi_j(x_i)\varphi_k(x_i)a_j\right)=\sum_{i=0}^mW_iy_i\varphi_k(x_i)
+\end{gather*}
+
+设
+\[
+(\varphi_j,\varphi_k)=\sum_{i=0}^mW_i\varphi_k(x_i)\varphi_j(x_i),(f,\varphi_k)=\sum_{i=0}^mW_iy_i\varphi_k(x_i)=(\varphi_k,f)
+\]
+
+则
+\[
+\sum_{j=0}^n(\varphi_j,\varphi_k)a_j=(f,\varphi_k)\quad(k=0,1,2,\ldots,n)
+\]
+
+转化为矩阵形式
+\[
+\begin{pmatrix}
+    (\varphi_0,\varphi_0) & (\varphi_1,\varphi_0) & \cdots & (\varphi_n,\varphi_0)\\
+    (\varphi_0,\varphi_1) & (\varphi_1,\varphi_1) & \cdots & (\varphi_n,\varphi_1)\\
+    \vdots & \vdots & \ddots & \vdots\\
+    (\varphi_0,\varphi_n) & (\varphi_1,\varphi_n) & \cdots & (\varphi_n,\varphi_n)\\
+\end{pmatrix}
+\begin{pmatrix}
+    a_0\\
+    a_1\\
+    \vdots\\
+    a_n\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+    (f,\varphi_0)\\
+    (f,\varphi_1)\\
+    \vdots\\
+    (f,\varphi_n)\\
+\end{pmatrix}
+\]
+
+解方程组：
+\[
+(a_0^*,a_1^*,\ldots,a_n^*)
+\]
+
+最小二乘函数：
+\[
+S^*(x)=a_0^*\varphi_0(x),a_1^*\varphi_1(x),\ldots,a_n^*\varphi_n(x)
+\]
+
+最小二乘的平方误差： 
+\[
+\|\delta_i\|_2^2=\sum_{i=0}^mW_i(S^*(x_i)-y_i)^2=\left|\sum_{i=0}^mW_iy_i^2-\sum_{j=0}^na_j^*(\varphi_j,f)\right|
+\]
+
+若\(\mathrm{span}\{\varphi_0(x),\ldots,\varphi_n(x)\}\)为正交多项式, 
+
+即
+\[
+(\varphi_i(x),\varphi_j(x))=
+\begin{cases}
+    0,i\neq j\\
+    1,i=j
+\end{cases}
+\]
+
+则法方程组可化为：
+\[
+\begin{pmatrix}
+    (\varphi_0,\varphi_0) & \square & \cdots & \square\\
+    \square & (\varphi_1,\varphi_1) & \cdots & \square\\
+    \vdots & \vdots & \ddots & \vdots\\
+    \square & \square & \cdots & (\varphi_n,\varphi_n)\\
+\end{pmatrix}
+\begin{pmatrix}
+    a_0\\
+    a_1\\
+    \vdots\\
+    a_n\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+    (f,\varphi_0)\\
+    (f,\varphi_1)\\
+    \vdots\\
+    (f,\varphi_n)\\
+\end{pmatrix}
+\]
+
+\section{常用正交多项式}
+
+\subsection{勒让德多项式}
+\[
+\int_{-1}^1P_m(x)P_n(x)\,\mathrm{d}x=
+\begin{cases}
+    0 & ,m\neq n\\
+    \dfrac{2}{2n+1} & ,m=n
+\end{cases}
+\]
+
+递推关系：
+\[
+\begin{cases}
+    P_0(x)=1,P_1(x)=x\\
+    P_{n+1}(x)=\dfrac{2n+1}{n+1}xP_n(x)-\dfrac{n}{n+1}P_{n-1}(x),n=1,2,\ldots
+\end{cases}
+\]
+
+\(P_n(x)\)在\((-1,1)\)内有必互异的实零点
+
+\subsection{切比雪夫多项式}
+
+权函数\(\rho(x)=\dfrac{1}{\sqrt{1-x^2}}\)
+\[
+\int_{-1}^{1}\frac{1}{\sqrt{1-x^2}}T_m(x)T_n(x)\,\mathrm{d}x=
+\begin{cases}
+    0 & ,m\neq n\\
+    \pi/2 & ,m=n\\
+    \pi & ,m=n=0\\
+\end{cases}
+\]
+
+递推关系：
+\[
+\begin{cases}
+    T_0(x)=1,T_1(x)=x\\
+    T_{n+1}=2xT_n(x)-T_{n-1}(x)
+\end{cases}
+\]
+
+或
+\[
+\cos(n+1)\theta=2\cos\theta\cos n\theta\cos(n-1)\theta,n\geq1
+\]
+
+代入\(x=\cos\theta\)即得递推关系
+
+\section{矛盾方程组求解}
+
+对于方程组\(Ax=b\)，若\(R(A,b)=R(A)\)，则有解。
+
+若\(R(A,b)\neq R(A)\)，则称矛盾方程组，其解即最小二乘解是指在均方误差极小意义下的解，即\(\min\|Ax-b\|_2^2\)
+
+方程\(A^\top Ax=A^\top b\)称为矛盾方程组\(Ax=b\)的法方程，两解等同。
+
+求解拟合曲线的极小值问题与求解矛盾方程组的法方程等价，即求解拟合曲线的极小问题可转化为求解方程组：\(A^\top Ax=A^\top b\)
+
+例：求解拟合函数\(S^*(x)=a_0+a_1x\)，则可将所有节点代入\(S^*(x)\)，构成一个关于\((a_0,a_1)\)的方程组\(Aa=b\Rightarrow A^\top Aa=A^\top b\)
+
+\chapter{数值积分}
+
+有些积分不能用 Nowton--leibniz 公式求解，从而采用用数值计算的办法解决。
+
+\section{基本思路}
+
+积分中值定理
+\[
+\int_a^bf(x)\,\mathrm{d}x=f(\xi)(b-a)
+\]
+
+\section{公式}
+\begin{enumerate}
+    \item 梯形公式：取\(f(\xi)(b-a)\approx\frac{1}{2}[f(a)+f(b)]\), 则有\(\int_a^bf(x)\,\mathrm{d}x\approx\frac{b-a}{2}[f(a)+f(b)]\)
+    \item 中矩形公式：取\(f(\xi)\approx f\left(\frac{b+a}{2}\right)\)，则有\(\int_a^bf(x)\,\mathrm{d}x=(b-a)f\left(\frac{b+a}{2}\right)\)
+\end{enumerate}
+
+\section{机械求积}
+
+考虑在\([a,b]\)上选取某些节点\(x_k\)，以\(f(x_k)\)的加权平均\(\frac{1}{b-a}\sum\limits_{i=1}^nA_if(x_i)\)来近似\(f(\xi)\)，则有\(\int_a^bf(x)\,\mathrm{d}x=\sum\limits_{i=0}^nA_if(x_i)\)（\(A_i\)相当于两节点的间距）\(A_i\)只与\(x_i\)的选取有关。
+
+由于\(f(x)\)的函数形式不一定已知，因此求出\(f(x)\)的近似形式，即插值公式：
+\[
+\int_a^bf(x)\,\mathrm{d}x\approx\int_a^bP_n(x)\,\mathrm{d}x\sum_{i=0}^nA_if(x_i)
+\]
+
+Lagrange 插值：\(f(x)=\sum\limits_{i=0}^nf(x_k)l_k(x)\)，其中\(x_k\)为节点，\(x\)为所求点。
+\[
+\int_a^bf(x)\,\mathrm{d}x=\int_a^b\sum_{k=0}^nf(x_k)L_k(x)\,\mathrm{d}x+\int_a^bR_n(x)\,\mathrm{d}x=\sum_{k=0}^nf(x_k)\int_a^bL_k(x)\,\mathrm{d}x+\int_a^bR_n(x)\,\mathrm{d}x
+\]
+
+则令\(A=\int_a^b\prod\limits_{\begin{subarray}{c}
+    i\neq j\\
+    j=0
+\end{subarray}}^n\frac{(x-x_i)}{(x_i-x_j)}\,\mathrm{d}x\)，若节点等距分布，将\([a,b]\)分成\(n\)等分，\(h=\frac{b-a}{n},x_k=a+kh\)
+\[
+x=a+th(0\leq t\leq n)\Rightarrow\,\mathrm{d}x=h\,\mathrm{d}t
+\]
+\begin{align*}
+    A_i & =\int_0^n\prod_{\begin{subarray}{c}
+        i\neq j\\
+        j=0
+    \end{subarray}}^n\frac{t-j}{i-j}h\,\mathrm{d}t=h\prod_{\begin{subarray}{c}
+        i\neq j\\
+        j=0
+    \end{subarray}}^n\frac{1}{i-j}\int_0^n\prod_{\begin{subarray}{c}
+        i\neq j\\
+        j=0
+    \end{subarray}}^n(t-j)\,\mathrm{d}t\\
+     & =h\frac{(-1)^{n-i}}{\prod\limits_{j=0}^{i=0}(i-j)\prod\limits_{j=i+1}^n(i-j)}\int_0^n\prod_{\begin{subarray}{c}
+        i\neq j\\
+        j=0
+    \end{subarray}}^n(t-j)\,\mathrm{d}t\\
+    & =h\frac{(-1)^{n-i}}{j!(n-i)!}\int_0^n\prod_{\begin{subarray}{c}
+        i\neq j\\
+        j=0
+    \end{subarray}}^n(t-j)\,\mathrm{d}t\\
+    & =\frac{(b-a)(-1)^{n-i}}{nj!(n-i)!}\int_0^n\prod_{\begin{subarray}{c}
+        i\neq j\\
+        j=0
+    \end{subarray}}^n(t-j)\,\mathrm{d}t=(b-a)\mathrm{C}_k^{(n)}
+\end{align*}
+
+其中
+\[
+\mathrm{C}_k^{(n)}=\frac{(-1)^{n-k}}{nk!(n-k)!}\int_0^n\prod_{\begin{subarray}{c}
+    i\neq j\\
+    j=0
+\end{subarray}}^n(t-j)\,\mathrm{d}t\qquad h=\frac{b-a}{n}
+\]
+
+当\(n=1\)时：
+\[
+\begin{cases}
+    \mathrm{C}_0^{(1)}=-1\times\int_0^1(t-1)\,\mathrm{d}t=\frac{1}{2}\\
+    \mathrm{C}_1^{(1)}=1\times\int_0^1t\,\mathrm{d}t=\frac{1}{2}
+\end{cases}
+\]
+\[
+\therefore \int_a^bf(x)\,\mathrm{d}x=\frac{b-a}{2}(f(a)+f(b))\text{（梯形公式）}
+\]
+
+当\(n=2\)时：
+\[
+\begin{cases}
+    \mathrm{C}_0^{(2)}=\frac{1}{4}\times\int_0^2(t-1)(t-2)\,\mathrm{d}t=\frac{1}{6}\\
+    \mathrm{C}_1^{(2)}=-\frac{1}{2}\times\int_0^2t(t-2)\,\mathrm{d}t=\frac{4}{6}\\
+    \mathrm{C}_2^{(2)}=\frac{1}{4}\times\int_0^2t(t-1)\,\mathrm{d}t=\frac{1}{6}
+\end{cases}
+\]
+\[
+\therefore\int_a^bf(x)\,\mathrm{d}x=\frac{b-a}{6}\left[f(a)+4f\left(\frac{a+b}{2}\right)+f(b)\right]\text{（simpson公式）}
+\]
+
+当\(n=4\)时：
+\[
+\therefore\int_a^bf(x)\,\mathrm{d}x=\frac{b-a}{90}[7f(a)+32f(x_1)+12f(x_2)+32f(x_3)+7f(b)]\text{（cotes公式）}
+\]
+
+\section{代数精度---衡量求积公式的精度}
+
+如果某个求积公式对于次数不超过\(m\)的多项式准确的成立，但对于\(m+1\)次多项式就不准确地成立，则该求积公式有\(m\)次代数精度。
+
+设有求积公式\(\int_a^bf(x)\,\mathrm{d}x=\sum\limits_{k=0}^nA_kf(x_k)\)，要使它具有\(m\)次代数精度，只要令它对于\(f(x)=1,x,\ldots,x^m\)都能准确成立，这就要求：
+\[
+\begin{cases}
+    \sum\limits_{k=0}^nA_k=b-a\\
+    \sum\limits_{k=0}^nA_kx_k=\frac{1}{2}(b^2-a^2)\\
+    \cdots\\
+    \sum\limits_{k=0}^nA_kx_k^m=\frac{1}{m+1}(b^{m+1}-a^{m+1})\\
+    \sum\limits_{k=0}^nA_kx_k^{m+1}\neq\frac{1}{m+2}(b^{m+2}-a^{m+2})
+\end{cases}
+\]
+
+例题：求数值求积公式\(\int_0^1f(x)\,\mathrm{d}x\approx\frac{1}{3}\left[2f\left(\frac{1}{4}\right)-f\left(\frac{1}{2}\right)+2f\left(\frac{3}{4}\right)\right]\)的代数精度。\\
+\textbf{解：}
+
+当\(f(x)=1\)时，
+\[
+\frac{1}{3}(2-1+2)=1
+\]
+
+当\(f(x)=x\)时，
+\[
+\frac{1}{3}\left(2\cdot\frac{1}{4}-\frac{1}{2}+2\cdot\frac{3}{4}\right)=\frac{1}{2}=\int_0^1x\,\mathrm{d}x
+\]
+
+当\(f(x)=x^2\)时，
+\[
+\frac{1}{3}\left(2\cdot\frac{1}{16}-\frac{1}{4}+2\cdot\frac{9}{16}\right)=\frac{1}{3}=\int_0^1x^2\,\mathrm{d}x
+\]
+
+当\(f(x)=x^3\)时，
+\[
+\frac{1}{3}\left(2\cdot\frac{1}{64}-\frac{1}{8}+2\cdot\frac{27}{64}\right)=\int_0^1x^3\,\mathrm{d}x=\frac{1}{4}
+\]
+
+当\(f(x)=x^4\)时，
+\[
+\frac{1}{3}\left(2\cdot\frac{1}{256}-\frac{1}{16}+2\cdot\frac{81}{256}\right)\neq\int_0^1x^4\,\mathrm{d}x
+\]
+
+因此代数精度为：3\\
+\textbf{注：}
+\begin{enumerate}
+    \item 同一求积公式即\(A_k\)相同，针对不同函数，精度是不相同的。
+    \item 梯形公式，simpson公式，cotes公式分别具有l，3，5次代数精度。
+    \item 当\(n\)为偶数时，Newtou-cotes公式至少具有\(n+1\)代数精度。
+\end{enumerate}
+
+\section{复化求积公式}
+
+考虑将\([a,b]\)分为小区间，每个小区间上用低阶公式，再将结果求和。
+
+\subsection{复化梯形公式}
+
+令\(f(x_0)=f(a),f(x_n)=f(b)\)，在小区间\([x_k,x_{k+1}]\)上用梯形公式：
+\begin{gather*}
+\int_{x_k}^{x_{k+1}}f(x)\,\mathrm{d}x=\frac{h}{2}(f(x_k)+f(x_{k+1}))\\
+\Rightarrow\int_{x_k}^{x_{k+1}}f(x)\,\mathrm{d}x=\sum_{k=0}^{n-1}\frac{h}{2}(f(x_k)+f(x_{k+1}))=\frac{h}{2}\left[f(a)+2\sum_{k=1}^{n-1}f(x_k)+f(b)\right]
+\end{gather*}
+
+\subsection{复化 simpson 公式}
+
+在小区间\([x_k,x_{k+1}]\)上用 simpson 公式：
+\begin{gather*}
+\int_{x_k}^{x_{k+1}}f(x)\,\mathrm{d}x=\frac{h}{6}\left(f(x_k)+4f\left(\frac{x_k+x_{k+1}}{2}\right)+f(x_{k+1})\right)\\
+\Rightarrow\int_a^bf(x)\,\mathrm{d}x=\sum_{k=0}^n\frac{h}{6}\left[f(x_k)+4f(x_{k+1/2})+f(x_{k+1})\right]\\
+=\frac{h}{6}\left[f(a)+4\sum_{k=0}^{n-1}f(x_{k+1/2})+2\sum_{k=1}^{n-1}f(x_k)+f(b)\right]
+\end{gather*}
+
+\subsection{复化 cotes 公式}
+\[
+C_n=\sum_{k=0}^{n-1}\frac{h}{90}[7f(x_k)+32f(x_{k+1/4})+12f(x_{k+1/2})+32f(x_{k+3/4})+7f(x_{x+1})]
+\]
+
+\section{复化求积公式余项}
+
+复化梯形：\(R_{T_n}(f)=\frac{h^2}{12}(b-a)f''(\eta)\approx\frac{h^2}{12}[f'(b)-f'(a)](b-a)\)
+
+复化 simpson：\(R_{S_n}(f)=-\frac{b-a}{180}\left(\frac{h}{2}\right)^4f^{(4)}(y)\approx-\frac{b-a}{180}\left(\frac{h}{2}\right)^4[f^{(3)}(b)-f^{(3)}(a)]\)
+
+复化 cotes：\(R_{C_n}(f)=-\frac{2(b-a)}{945}\left(\frac{h}{4}\right)^6f^{(6)}(y)\approx-\frac{2(b-a)}{945}\left(\frac{h}{4}\right)^6[f^{(5)}(b)-f^{(5)}(a)]\)
+
+\chapter{解线性方程的直接方法}
+
+\section{非奇异矩阵}
+
+设\(A\in\mathbb{R}^{n\times n},B\in\mathbb{R}^{n\times n}\)，如果\(AB=BA=I\)，则称\(B\)是\(A\)的逆矩阵，记为\(A^{-1}\)，且\((A^{-1})^\top=(A^\top)^{-1}\)，如果\(A^{-1}\)存在，则称\(A\)为非奇异矩阵。如果\(A,B\)均为非奇异矩阵，则\((AB)^{-1}=B^{-1}A^{-1}\)。
+
+\section{矩阵的特征值与谱半径}
+\begin{enumerate}
+    \item 设\(A=(a_{ij})\in\mathbb{R}^{n\times n}\),若存在数\(\lambda\)和非零向量\(x=(x_1,x_2,\ldots,x_n)^\top\in\mathbb{R}^n\)，使\(Ax=\lambda x\)，则称\(\lambda\)为\(A\)的特征值，\(x\)为\(A\)对应\(\lambda\)的特征向量，\(A\)的全体特征值称为\(A\)的谱，记作\(\sigma(A)\)，即\(\sigma(A)=\{\lambda_1,\lambda_2,\ldots,\lambda_n\}\)，记\(\rho(A)=\max\limits_{1\leq i\leq n}|\lambda_i|\)，则称为矩阵\(A\)的谱半径。
+    \item 通过求\(\det(\lambda I-A)=0\)，得到\(A\)的特征值（具体分析过程可复习线代），谱半径则是判断特征值绝对值的最大值。
+\end{enumerate}
+
+\section{Gauss 消去法}
+
+对于\(Ax=b\)的矩阵形式。
+
+考虑增广矩阵\((A|b)\)行变换为\((A^{(n)}|b^{(n)})\)，其中\(A^{(n)}\)上三角矩阵。（初等行变换）
+
+例题：
+\[
+\begin{cases}
+    x_1+x_2+x_3=6\\
+    4x_2-x_3=5\\
+    2x_1-2x_2+x_3=1
+\end{cases}
+\]
+
+用 Gauss 消去法为：
+\[
+(A|b)=
+\left(
+\begin{array}{ccc|c}
+    1 & 1 & 1 & 6\\
+    0 & 4 & -1 & 5\\
+    2 & -2 & 1 & 1 
+\end{array}
+\right)
+\to
+\left(
+\begin{array}{ccc|c}
+    1 & 1 & 1 & 6\\
+    0 & 4 & -1 & 5\\
+    0 & -4 & -1 & -11 
+\end{array}
+\right)
+\to
+\left(
+\begin{array}{ccc|c}
+    1 & 1 & 1 & 6\\
+    0 & 4 & -1 & 5\\
+    0 & 0 & -2 & -6 
+\end{array}
+\right)
+\]
+
+得
+\[
+\begin{cases}
+    x_1+x_2+x_3=6\\
+    4x_2-x_3=5\\
+    -2x_3=-6
+\end{cases}
+\]
+
+求得\(x=(1,2,3)^\top\)
+
+（与线性代数中的解法是一致的，考试中如果考到高斯消元法，就这样一步一步来，是没有问题的）
+
+总运算次数：\(\frac{n^3}{3}+O(n^2)=\frac{n^3}{3}+n^2-\frac{n}{3}\)
+
+\section{列主元素 Gauss 消元法}
+
+为避免小主元作除数，在\(A^{(k)}\)的第\(k\)列主对角线以下元素中挑选绝对值最大者，并通过行变换使之位于主对角线上作为主元素。
+
+不带行变换的消元过程：消元\(\to\)行变换\(\to\)左乘初等矩阵。
+\[
+L_K(A^{(k)}|b^{(k)})=(A^{(k+1)}|b^{(k+1)})\Rightarrow L_{K-1}L_{K-2}\cdots L_2L_1(A^{(1)}|b^{(1)})=(A^{(k)}|b^{(k)})
+\]
+
+其中\(L_{K-1}L_{K-2}\cdots L_1A^{(1)}=A^{(k)}\Rightarrow L_{n-1}L_{n-2}\cdots L_1A^{(1)}=A^{(n)}\)
+\[
+\begin{array}{l}
+    \because A^{(1)}=A\\
+    \therefore A=(L_{n-1}L_{n-2}\cdots L_1)^{-1}A^{(n)}=LU\\
+    \Rightarrow
+    \begin{cases}
+        L=(L_{n-1}L_{n-2}\cdots L_1)^{-1}\quad\text{单位下三角矩阵}\\
+        U=A^{(n)}\quad\text{上三角矩阵}
+    \end{cases}
+\end{array}
+\]
+
+称\(A=LU\)为矩阵\(A\)的\(LU\)分解
+
+\section{直接三角分解法（重点考察）}
+
+若有三角阵\(L,U\)，使\(A=LU\)，则方程组\(Ax=b\to LUx=b\to\begin{cases}
+    Ly=b\\
+    Ux=y
+\end{cases}\)
+
+注：\(LU\)分解的条件：\(A\)的各阶顺序主子列不为零，\(D_1\neq0,D_2\neq0,\ldots,D_{n-1}\neq0\)
+
+\section{不选主元的 Doolittle 分解（重点考察）}
+\begin{gather*}
+A=\begin{pmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n}\\
+    a_{21} & a_{22} & \cdots & a_{2n}\\
+    \vdots & \vdots & \ddots & \vdots\\
+    a_{n1} & a_{n2} & \cdots & a_{nn}\\
+\end{pmatrix}
+\quad
+L=\begin{pmatrix}
+    1 & 0 & \cdots & 0\\
+    l_{21} & 1 & \cdots & 0\\
+    \vdots & \vdots & \ddots & \vdots\\
+    l_{n1} & l_{n2} & \cdots & 1\\
+\end{pmatrix}
+\quad
+U=\begin{pmatrix}
+    u_{11} & u_{12} & \cdots & u_{1n}\\
+    0 & u_{22} & \cdots & u_{2n}\\
+    \vdots & \vdots & \ddots & \vdots\\
+    0 & 0 & \cdots & u_{nn}\\
+\end{pmatrix}\\
+a_{ij}=\sum_{s=1}^{\min\{ij\}}l_{is}u_{si}\quad1\leq i,j\leq n
+\end{gather*}
+
+计算\(U\)第\(r\)个行，\(L\)的第\(r\)列元素\((r=2,3,\ldots,n)\)
+\begin{gather}
+u_{ri}=a_{ri}-\sum_{k=1}^{r-1}l_{rk}u_{ki}\quad(i=r,r+1,\ldots,n)\label{eqa:1}\\
+l_{ir}=\frac{1}{u_{rr}}\left(a_{ir}-\sum_{k=1}^{r-1}l_{ik}u_{kr}\right)\quad(i=r+1,\ldots,n\wedge r\neq n)\label{eqa:2}
+\end{gather}
+
+注意\(L\)和\(U\)的特征，\(L\)是下三角矩阵，且对角线元素都是1，\(U\)为上三角矩阵，对角线元素需要计算求得。
+
+例题：用直接三角法解：
+\[
+\begin{pmatrix}
+    1 & 2 & 3\\
+    2 & 5 & 2\\
+    3 & 1 & 5\\
+\end{pmatrix}
+\begin{pmatrix}
+    x_1\\
+    x_2\\
+    x_3\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+    14\\
+    18\\
+    20\\
+\end{pmatrix}
+\]
+
+用(\ref{eqa:1})(\ref{eqa:2})计算得：
+\[
+A=\begin{pmatrix}
+    1 & 0 & 0\\
+    2 & 1 & 0\\
+    3 & -5 & 1\\
+\end{pmatrix}
+\begin{pmatrix}
+    1 & 2 & 3\\
+    0 & 1 & -4\\
+    0 & 0 & -24\\
+\end{pmatrix}
+=LU
+\]
+
+求解\(Ly=(14,18,20)^\top\)，得\(y=(14,-10,-72)^\top\)
+
+\(Ux=(14,-10,-72)^\top\)，得\(x=(1,2,3)^\top\)
+
+\section{列主元的 Doolittle 分解（了解）}
+
+通过行变换，使对对角元最大（即左乘一个初等矩阵P）
+\[
+\begin{array}{l}
+    \therefore Ax=b\Rightarrow PAx=Pb\Rightarrow LUx=Pb\\
+    \therefore PA=LU\\
+    \therefore \begin{cases}
+        |A|=\pm|L||U|=\pm|U|\\
+        A^{-1}=U^{-1}L^{-1}P
+    \end{cases}[\pm\text{由换行次数确定}](\text{行列式的计算})
+\end{array}
+\]
+
+注：在不选主元的 Doolitle 分解的基础上，通过行变换选主元。每一步变换后都可做行变换选主元。\(Ux=L^{-1}Pb\)(紧凑格式的最后一列)
+
+\section{平方根法（系数矩阵为正定对称矩阵）}
+
+\subsection{正定矩阵}
+
+若\(A\)为对称正定矩阵，则存在唯一的对角元素全为正的下三角阵\(L\)，使\(A=LL^\top\)
+\[
+\begin{pmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n}\\
+    a_{21} & a_{22} & \cdots & a_{2n}\\
+    \vdots & \vdots & \ddots & \vdots\\
+    a_{n1} & a_{n2} & \cdots & a_{nn}\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+    l_{11} & 0 & 0 & 0\\
+    l_{21} & l_{22} & 0 & 0\\
+    \vdots & \vdots & \ddots & 0\\
+    l_{n1} & l_{n2} & \cdots & l_{nn}\\
+\end{pmatrix}
+\begin{pmatrix}
+    l_{11} & l_{12} & \cdots & l_{1n}\\
+    0 & l_{22} & \cdots & l_{2n}\\
+    0 & 0 & \ddots & \vdots\\
+    0 & 0 & 0 &l_{nn}\\
+\end{pmatrix}
+\]
+
+直接运用矩阵乘法求解\(L\)的元素：
+\[
+\begin{cases}
+    a_u=l_{11}^2\Rightarrow l_{11}=\sqrt{a_u}\\
+    a_i=l_{11}l_{i}\Rightarrow l_{i1}=\frac{a_{1i}}{l_{11}}\\
+    \cdots
+\end{cases}
+\]
+
+求解根：\(Ax=b\Rightarrow LL^\top x\Rightarrow\begin{cases}
+    Ly=b\\
+    L^\top x=y
+\end{cases}\)
+
+\subsection{平方根的改进方法}
+
+若对称矩阵\(A\)各阶顺序主子式不为0时，则\(A\)可以唯一分解为\(A=LDL^\top\)
+\[
+L=
+\begin{pmatrix}
+    1 & \square & \square & \cdots & \square\\
+    l_{21} & 1 & \square & \cdots & \square\\
+    l_{31} & l_{32} & 1 & \cdots & \square\\
+    \vdots & \vdots & \vdots & \ddots & \vdots\\
+    l_{n1} & l_{n2} & l_{n3} & \cdots & 1\\
+\end{pmatrix}
+\quad
+D=
+\begin{pmatrix}
+    d_1 & \square & \cdots & \square\\
+    \square & d_1 & \cdots & \square\\
+    \square & \square & \ddots & \vdots\\
+    \square & \square & \cdots & d_1\\
+\end{pmatrix}
+\]
+
+\(A=LDL^\top=LU\)，可用\(LU\)分解的紧凑格式计算\(L\)
+
+\chapter{解线性方程组的迭代解法}
+
+\section{定义}
+
+对于线性方程组\(AX=b\)，考虑等阶方程组\(X=BX+f\)
+
+向量迭代公式：\(x^{(k+1)}=BX^{(k)}+f\)
+
+\section{距离函数应满足的性质}
+\begin{enumerate}
+    \item 正定性：\(\forall x\in U,N(x)\geq0\)
+    \item 齐次性：\(\forall k\in\mathbb{R},N(kx)=|k|N(x)\)
+    \item 三角不等式：\(N(x+y)\leq N(x)+N(y)\)
+\end{enumerate}
+
+\section{P范数}
+\[
+\|x\|_p=\left(\sum_{i=1}^n|x_i|^p\right)^{1/p}
+\]
+
+最大模范数：
+\[
+\|x\|_\infty=\max_{1\leq i\leq n}|x_i|
+\]
+
+绝对值范数：
+\[
+\|x\|_1=\sum_{i=1}^n|x_i|
+\]
+
+常见几种范数的关系：
+\[
+\begin{cases}
+    \|x\|_\infty\leq\|x\|_1\leq n\|x\|_\infty\\
+    \|x\|_\infty\leq\|x\|_2\leq\sqrt{n}\|x\|_\infty\\
+    \|x\|_2\leq\|x\|_1\leq\sqrt{n}\|x\|_2
+\end{cases}
+\]
+
+\section{向量间的距离}
+
+设向量\(xy\in\mathbb{R}^n\)，则称\(\|x-y\|\)为，\(x,y\)之间的距离(\(\mathbb{R}^n\)上的任一种向量范数)
+
+\section{矩阵范数}
+
+只考虑\(\mathbb{R}^n\)中的方阵
+
+若对应一个实数\(\|A\|\)，满足：
+\[
+\begin{cases}
+    \|A\|>0\wedge\|A\|=0\Leftrightarrow A=0\\
+    \|KA\|=\|K\|\|A\|\\
+    \|A+B\|\leq\|A\|+\|B\|\\
+    \|AB\|\leq\|A\|\|B\|
+\end{cases}
+\]
+
+则称\(\|A\|\)为方阵的范数
+
+\section{算子范数}
+
+设\(\forall A\in\mathbb{R}^{n\times n}\)，\(\|\cdot\|\)为向量范数，称\(\|A\|=\max\limits_{x\neq0,x\in\mathbb{R}^n}\frac{\|AX\|}{\|X\|}\)为矩阵\(A\)的算子范数。\\
+\textbf{常见的算子范数：}
+\begin{enumerate}
+    \item \(\|A\|_\infty=\max\limits_{\|X\|=1}\|A\|_\infty=\max\limits_{1\leq i\leq n}\sum\limits_{j=1}^n|a_{ij}|\Rightarrow\)行范数（每行元素绝对值相）；
+    \item \(\|A\|_1=\max\limits_{\|X\|=1}\|A\|_1=\max\limits_{1\leq j\leq n}\sum\limits_{i=1}^n|a_{ij}|\Rightarrow\)列范数；
+    \item \(\|A\|_2=\max\limits_{\|x\|=1}\|A\|_2=\sqrt{\lambda_{\max}(A^\top A)}\Rightarrow\)2范数，其中\(\lambda_{\max}(A^\top A)\)为矩阵\(A^\top A\)的绝对值最大的特征值。
+\end{enumerate}
+
+设\(\lambda_i(i=1,2,\ldots,n)\)为\(A\in\mathbb{R}^{n\times n}\)的\(n\)个特征值，则称\(\rho(A)=\max\limits_{1\leq i\leq n}|\lambda_i|\)为\(A\)的谱半径。
+
+设\(A\)非奇异，\(\|\cdot\|\)为算子范数，则称\(\mathrm{cond}(A)=\|A\|\|A^{-1}\|\)矩阵\(A\)的条件数。
+
+条件数的值与范数的类型有关：
+\[
+\begin{cases}
+    \mathrm{cond}(A)_\infty=\|A\|_\infty\|A^{-1}\|_\infty\\
+    \mathrm{cond}(A)_2=\|A\|_2\|A^{-1}\|_2=\sqrt{\frac{\lambda_{\min}}{{\sigma_{\max}}}}
+\end{cases}
+\]
+
+\(\lambda_{\min}\)为\(A^\top A\)的特征值。若\(\mathrm{cond}(A)\gg1\)，则称\(Ax=b\)为病态方程组。
+ 
+\section{线性方程组的送代解法}
+\[
+x^{(k+1)}=BX^{(k)}+f\Rightarrow x^{(k+1)}=\begin{pmatrix}
+    x_1^{(k+1)}\\
+    x_2^{(k+1)}\\
+    \vdots\\
+    x_n^{(k+1)}\\
+\end{pmatrix}
+=B\begin{pmatrix}
+    x_1^{(k)}\\
+    x_2^{(k)}\\
+    \vdots\\
+    x_n^{(k)}\\
+\end{pmatrix}
++f
+\]
+
+其中\(B\)称为迭代矩阵。如果\(\lim\limits_{k\to\infty}x^k\)存在（记为\(x^*\)），称此迭代法收敛，显然\(x^*\)是此方程组的解，否则称此迭代法发散。
+
+\(x^{(k+1)}=BX^{(k)}+f\)收敛的充要条件是矩阵\(B\)得谱半径\(\rho(B)<1\)
+
+\subsection{G-S法}
+\[
+\begin{cases}
+    a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n=b_1\\
+    a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n=b_2\\
+    \cdots\\
+    a_{n1}x_1+a_{n2}x_2+\cdots+a_{nn}x_n=b_n\\
+\end{cases}
+\]
+
+设\(A=(a_{ij})_{n\times n}\)可逆，且\(a_{ii}\neq0(i=1,2,\ldots,n)\)，则有：
+\begin{equation}
+    a_{ii}x_i=b_i-\sum\limits_{j=1}^{i-1}a_{ij}x_i-\sum\limits_{j=i+1}^na_{ij}x_j(i=1,2,\ldots,n)\label{eqa:str}
+\end{equation}
+
+可得
+\[
+x_i=\frac{1}{a_{ii}}\left(b_i-\sum_{j\neq i}^na_{ij}x_j\right)\quad(i=1,2,\ldots,n)
+\]
+
+写成迭代格式：
+\[
+x_i^{(k+1)}=\frac{1}{a_{ii}}\left(b_i-\sum_{j\neq i}^na_{ij}x_j^{(k)}\right)\quad(i=1,2,\ldots,n)
+\]
+
+又式\ref{eqa:str}写成矩阵形式：
+\[
+\begin{pmatrix}
+    a_{11} & &\\
+    & \ddots &\\
+    & & a_{nn}\\
+\end{pmatrix}
+\begin{pmatrix}
+    x_1\\
+    x_2\\
+    \vdots\\
+    x_n\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+    b_1\\
+    b_2\\
+    \vdots\\
+    b_n\\
+\end{pmatrix}
+-
+\begin{pmatrix}
+    0 & & &\\
+    a_{21} & 0 & &\\
+    \vdots & \vdots & \ddots &\\
+    a_{n1} & a_{n2} & \cdots & 0\\
+\end{pmatrix}
+\begin{pmatrix}
+    x_1\\
+    x_2\\
+    \vdots\\
+    x_n\\
+\end{pmatrix}
+-
+\begin{pmatrix}
+    0 & a_{12} & \cdots & a_{1n}\\
+    & 0 & \cdots & a_{2n}\\
+    & & \ddots & \vdots\\
+    & & & 0\\
+\end{pmatrix}
+\begin{pmatrix}
+    x_1\\
+    x_2\\
+    \vdots\\
+    x_n\\
+\end{pmatrix}
+\]
+
+即：\(DX=LX+UX+b\)，其中\(D-L-U=A\)
+\[
+D=\begin{pmatrix}
+    a_{11} & & & \\
+    & a_{22} & &\\
+    & & \ddots &\\
+    & & & a_{nn}\\
+\end{pmatrix},
+L=\begin{pmatrix}
+    0 & & &\\
+    -a_{21} & 0 & &\\
+    \vdots & \vdots & \ddots &\\
+    -a_{n1} & -a_{n2} & \cdots & 0\\
+\end{pmatrix},
+U=\begin{pmatrix}
+    0 & -a_{12} & \cdots & -a_{1n}\\
+    & 0 & \cdots & -a_{2n}\\
+    & & \ddots & \vdots\\
+    & & & 0\\
+\end{pmatrix}
+\]
+
+得到\(x^{(k+1)}=-D^{-1}(L+U)x^{(k)}+D^{-1}b\)
+\[
+\therefore B_j(\text{迭代矩阵})=-D^{-1}(L+U),f_j=D^{-1}b\Rightarrow x=D_jx+f_j
+\]
+
+则有Jacobi迭代的矩阵形式：
+\[
+x^{(k+1)}=B_jx^{(k)}+f_j
+\]
+
+例题：将方程组\(\begin{cases}
+    8x_1-3x_2+2x_3=20\\
+    4x_1+11x_2-x_3=33\\
+    2x_1+x_2+4x_3=12\\
+\end{cases}\)写成 Jacobi 迭代格式
+\[
+\begin{cases}
+    x_1^{(k+1)}=\frac{1}{8}(20+3x_2^{(k)}-2x_3^{(k)})\\
+    x_2^{(k+1)}=\frac{1}{11}(33-4x_1^{(k)}+x_3^{(k)})\\
+    x_3^{(k+1)}=\frac{1}{4}(12-2x_1^{(k)}-x_2^{(k)})
+\end{cases}
+\]
+
+\subsection{G--S 法}
+
+考虑 Jacobi 迭代分量式
+\[
+x_i^{(k+1)}=\frac{1}{a_{ii}}\left(b_i-\sum_{j=i}^{i_1}a_{ij}x_i^{(k)}-\sum_{j=i+1}^na_{ij}x_j^{(k)}\right)
+\]
+
+通常计算值\(x_j^{(k+1)}\)比前一步计算值\(x_j^{(k)}\)更精确
+
+取\(x_i^{(k+1)}=\dfrac{1}{a_{ii}}\left(b_i-\sum\limits_{j=i}^{i-1}a_{ij}x_i^{(k+1)}-\sum\limits_{j=i+1}^na_{ij}x_j^{(k)}\right)\)称为高斯--赛德尔迭代
+
+将方程组\(\begin{cases}
+    8x_1-3x_2+2x_3=20\\
+    4x_1+11x_2-x_3=33\\
+    2x_1+x_2+4x_3=12
+\end{cases}\)写成 G--S 迭代格式
+
+迭代公式：
+\[
+\begin{cases}
+    x_1^{(k+1)}=\frac{1}{8}(20+3x_2^{(k)}-2x_3^{(k)})\\
+    x_2^{(k+1)}=\frac{1}{11}(33-4x_1^{(k+1)}+4x_3^{(k)})\\
+    x_3^{(k+1)}=\frac{1}{4}(12-2x_1^{(k+1)}-x_2^{(k+1)})
+\end{cases}
+\]
+
+\subsection{SOR法}
+
+迭代公式写法:
+\[
+\begin{array}{l}
+    Dx^{(k+1)}=Dx^{(k)}+\omega(Lx^{(k+1)}+Ux^{(k)}-Dx^{(k)}+b)\\
+    \therefore(D-\omega L)x^{(k+1)}=(D+U\omega-\omega D)x^{(k)}+\omega b\\
+    \therefore x^{(k+1)}=(D-\omega L)^{-1}[(1-\omega)D+\omega U]+(D-\omega U)^{-1}\omega b\\
+    \Rightarrow B_{\omega}=(D-\omega L)^{-1}[(1-\omega)D+\omega U]
+\end{array}
+\]
+
+\begin{enumerate}
+    \item 严格对角占优矩阵：\(A\)的元素要满足：\(|a_{ii}|>\sum\limits_{\begin{subarray}{c}
+        j=1\\
+        j\neq i
+    \end{subarray}}^n|a_{ij}|,i=1,2,\ldots,n\)
+    \item 弱对角占优矩阵：\(A\)的元素要满足：\(|a_{ii}|\geq\sum\limits_{\begin{subarray}{c}
+        j=1\\
+        j\neq i
+    \end{subarray}}^n|a_{ij}|,i=1,2,\ldots,n\)
+    \item 迭代的收敛性：\\\(D=\begin{pmatrix}
+        a_{11} & & & \\
+        & a_{22} & &\\
+        & & \ddots &\\
+        & & & a_{nn}\\
+    \end{pmatrix},
+    L=\begin{pmatrix}
+        0 & & &\\
+        -a_{21} & 0 & &\\
+        \vdots & \vdots & \ddots &\\
+        -a_{n1} & -a_{n2} & \cdots & 0\\
+    \end{pmatrix},
+    U=\begin{pmatrix}
+        0 & -a_{12} & \cdots & -a_{1n}\\
+        & 0 & \cdots & -a_{2n}\\
+        & & \ddots & \vdots\\
+        & & & 0\\
+    \end{pmatrix}\)
+\end{enumerate}
+
+\subsection{J法}
+\begin{enumerate}
+    \item \(B_j=D^{-1}(L+U)\)
+    \item \(\rho(B_j)<1\)
+    \item \(\|B_j\|<1\)
+    \item \(A\)严格对角占优，或\(A\)经行变换后的矩阵严格对角占优
+\end{enumerate}
+
+\subsection{G--S法}
+\begin{enumerate}
+    \item \(B_G=(D-L)^{-1}U\)
+    \item \(\rho(B_G)<1\)
+    \item \(\|B_G\|<1\)
+    \item \(A\)或\(A\)经行变换后严格对角占优
+    \item \(\|B_j\|_\infty<1\)
+\end{enumerate}
+
+\subsection{SOR法（了解）}
+\begin{enumerate}
+    \item 若\(A\)的对角无均不为0，则收敛的必要条件\(0<\omega<2\)
+    \item 着\(A\)严格对角占优，则当\(0<\omega<1\)时收敛
+    \item 若\(A\)为正定矩阵，则当\(0<\omega<2\)时收敛
+\end{enumerate}
+
+\chapter{方程求根}
+
+\section{收敛}
+
+若一个迭代法收敛，\(x^*\)是方程\(f(x)=0\)的一个根，则令\(e_k=xk-x^*\)。若存在实数\(P\)和非零常数\(C\)，使得：\(\lim\limits_{k\to\infty}\frac{|e_{k+1}|}{|e_k|^p}=C\)，则称该达代法为 \(P\)阶收效\(P=1\)为线性收敏，\(P>1\)为超线性收敏，\(P=2\)为平方收敛。
+
+\section{二分法求根}
+
+利用\(f(a)f(b)<0\)，决定\([a,b]\)间存在根，再取\(f\left(\frac{a+b}{2}\right)\cdots\)
+
+\section{不动点迭代}
+
+将\(f(x)=0\)化为\(x=\varphi(x)\)，取迭代方程为\(x_{k+1}=\varphi(x_k)\)，其中\(p(x)\)称为迭代函数。
+\begin{itemize}
+    \item 不动点迭代的误差：\(|x-x_k|\leq\frac{L}{1-L}|x_k-x_{k-1}|\)，\(L\)为小于1的正实数；
+    \item 收敛性判断：若迭代收敛，设\(\varphi'(x)\)在\([a,b]\)上存在，且\(|\varphi'(x)|\leq|L|\)，则迭代收敛；
+    \item 收敛速度：若迭代收敛，设\(\varphi(x)\)在区间\([a,b]\)上为\(P(\geq2)\)次可微，且在\(x=\varphi(x)\)的根\(x^*\)处有\(\begin{cases}
+        \varphi^{(j)}(x^*)=0\\
+        \varphi^{(p)}(x^*)\neq0
+    \end{cases},\underbrace{j=1,2,\ldots,P-1}_\text{不是从0开始}\)则不动点迭代为\(P\)阶收敛。
+\end{itemize}
+\textbf{注：}
+\begin{enumerate}
+    \item 若题目中说，根在\(x'\)附近，则代入\(x'\)也可。
+    \item 局部收敛：若题中告诉了根的大概值\(x'\)，判断收敛性，\(|\varphi'(x')|<1\)收敛且\(|\varphi'(x')|<1\)越小,收敛性越好。
+\end{enumerate}
+
+\section{Newton 迭代法}
+
+设\(x_k\)是\(f(x)=0\)的根\(x^*\)的一个近似值
+\[
+\underbrace{f(x)\approx f(x_k)+f'(x_k)(x-x_k)}_{\text{泰勒公式}}=0\Rightarrow x=x_k-\frac{f(x_k)}{f'(x_k)}
+\]
+
+迭代公式：\(x_{k+1}=x_{k}-\frac{f(x_k)}{f'(x_k)}\)
+\begin{enumerate}
+    \item 收敛性：若\(f(x)\)在解\(x^*\)附近二阶连续可导，且\(f'(x)\neq0\)（即\(x^*\)为单根），则在\(x^*\)附近，Newton 序列至少二阶敛于\(x^*\)。
+    \item 收敛性判断\(x=x_k-\frac{f(x_k)}{f'(x_k)}\)则相当于\(\varphi(x)=x-\frac{f(x)}{f'(x)}\Rightarrow|\varphi'(x)|<1\)则 Newton 迭代收敛。
+    \item 收敛速度：同不动点迭代。
+\end{enumerate}
+
+\section{牛顿下山法}
+\[
+x_{k+1}=x_k-\frac{f(x_k)}{f'(x_k)},k=0,1,\ldots
+\]
+
+重根情形：设\(f(x)=(x-x^*)^mg(x)\)，整数\(m\geq2\)，\(g(x^*)\pm0\)，则\(x^*\)为\(f(x)\)的\(m\)重根，此时有\(f(x^*)=f'(x^*)=\cdots=f^{(m-1)}(x^*)=0,f^{(m)}(x^*)\neq0\)。只要\(f'(x_k)\neq0\)仍可用牛顿法计算，此时迭代函数\(\varphi(x)=x-\frac{f(x)}{f'(x)}\)的导数满足\(\varphi'(x)=1-\frac{1}{m}<1\)，所以牛顿法求重根只是线性收敛，若取\(\varphi(x)=x-m\frac{f(x)}{f'(x)}\)，则\(\varphi'(x^*)=0\)，用迭代法\(x_{k+1}=x_k-m\frac{f(x_k)}{f'(x_k)}\)求重根，则具有二阶收敛性（但要知道\(x^*\)的重数\(m\)）。
+
+\section{弦截法迭代}
+
+在不动点法基础上，以差商代替导数
+
+单点：差商：\(f'(x_k)=\frac{f(x_k)-f(x_0)}{x_k-x_0}\)，则迭代公式：\(x_{k+1}=\frac{f(x_k)}{f(x_k)-f(x_0)}(x_k-x_0)\)
+
+双点：差商：\(f'(x_k)=\frac{f(x_k)-f(x_{k-1})}{x_k-x_{k-1}}\)，则迭代公式：\(x_{k+1}=x_k-\frac{f(x_k)}{f(x_k)-f(x_{k-1})}(x_k-x_{k-1})\)
+
+收敛阶数约为 1.618
+
+\section{迭代加速}
+
+Aitken 加速
+
+\[
+\bar{x}_k=x_{k+1}-\frac{(x_{k+1}-x_k)^2}{x_{k-1}-2x_k+x_{k+1}}
+\]
+
+但要求\(P=1\)
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+
+\appendix
+
+\chapter{引论}
+
+\section{填空题}
+\begin{enumerate}
+    \item 设\(x_1=1.219,x_2=3.661\)均具有3位有效数字，则\(x_1+x_2\)的误差限为\underline{0.01}。
+    \item 为了使计算\(y=10+\frac{3}{x-1}+\frac{4}{(x-1)^2}-\frac{6}{(x-1)^3}\)的乘除法次数尽量地少，应将该表达式改写为\underline{\(y=10+(3+(4-6t)t)t,t=\frac{1}{x-1}\)}，为了减少舍入误差，应将表达式\(\sqrt{2021}-\sqrt{1999}\)改写为\underline{\(\frac{2}{\sqrt{2021}+\sqrt{1999}}\)}。
+    \item 为了减少舍入误差的影响，当\(x\approx y\)应将表达式\(\lg x-\lg y\)改写为\underline{\(\lg (x/y)\)}。
+    \item 计算方法实际计算时，对数据只能取有限位表示，这时所产生的误差叫\underline{舍入}误差。
+    \item 设\(x_1=1.216,x_2=3.654\)均具有3位有效数字，则\(x_1+x_2\)的误差限为\underline{0.01}。
+    \item 已知数\(e=2.718281828\ldots\)，取近似值\(x=2.7182\)，那么\(x\)具有的有效数字是\underline{4}。
+\end{enumerate}
+
+\section{计算题}
+
+已知测量某长方形场地的长\(a=110\)米，宽\(b=80\)米。若\(|a-a^*|\leq0.1\)（米），\(|b-b^*|\leq0.1\)（米）试求其面积的绝对误差限和相对误差限。\\
+\textbf{解}：
+
+设长方形的面积为\(s=ab\)
+
+当\(a=110,b=80\)时，有\(s=110\times80=8800(m^2)\)。此时，该近似值的绝对误差可估计为：
+\[
+\Delta(s)\approx\frac{\partial s}{\partial a}\Delta(a)+\frac{\partial s}{\partial b}\Delta(b)=b\Delta(a)+a\Delta(b)
+\]
+
+相对误差可估计为：
+\[
+\Delta_r(s)=\frac{\Delta (s)}{s}
+\]
+
+而已知长方形长、宽的数据的绝对误差满足
+\[
+|\Delta(a)|\leq0.1,|\Delta(b)|\leq0.1
+\]
+
+故求得该长方形的绝对误差限和相对误差限分别为
+\begin{gather*}
+    |\Delta(s)|\leq b|\Delta(a)|+a|\Delta(b)|\leq80\times0.1+110\times0.1=19.0\\
+    |\Delta_r(s)|=\left|\frac{\Delta s}{s}\right|\leq\frac{19.0}{8800}=0.002159
+\end{gather*}
+
+绝对误差限为19.0；相对误差限为0.002159。
+
+\vspace{4em}
+测得某桌面的长\(a\)的近似值\(a^*=120\mathrm{cm}\)，宽\(b\)的近似值\(b^*=60\mathrm{cm}\)。若已知\(|e(a^*)|\leq0.2\mathrm{cm},|e(b^*)|\leq0.1\mathrm{cm}\)。试求近似面积\(s^*=a^*b^*\)的绝对误差限与相对误差限。\\
+\textbf{解}：
+
+面积\(s=ab\)，则绝对误差限为：
+\begin{gather*}
+    e(s^*)=\frac{\partial s(a^*,b^*)}{\partial a}e(a^*)+\frac{\partial s(a^*,b^*)}{\partial b}e(b^*)=b^*e(a^*)+a^*e(b^*)\\
+    |e(s^*)|\leq|b^*||e(a^*)|+|a^*||e(b^*)|\leq60\times0.2+120\times0.1=24\mathrm{cm}^2
+\end{gather*}
+
+相对误差限为：
+\[
+|e_r(s^*)|=\left|\frac{e(s^*)}{s^*}\right|\leq\frac{24}{120\times60}=0.33\%
+\]
+
+\chapter{插值法}
+
+\section{填空题}
+\begin{enumerate}
+    \item 已知\(f(x)=2x^3+5\)，则\(f[1,2,3,4]=\underline{2};f[1,2,3,4,5]=\underline{0}\)。
+    \item 设\(x_0,x_1,\ldots,x_n(n\geq5)\)为互不相同的节点，则插值多项式\(\sum\limits_{k=0}^nl_k(s)x_k^2=\underline{x^2}\)。
+    \item 称\(f[x_0,x_1]=\underline{\frac{f(x_1)-f(x_0)}{x_1-x_0}}\)为函数\(f(x)\)关于点\(x_0,x_1\)的一阶差商（均差），称\(f[x_0,x_1,x_2]=\underline{\frac{f[x_0,x_2]-f[x_0,x_1]}{x_2-x_1}}\)为函数\(f(x)\)关于点\(x_0,x_1,x_2\)的二阶差商。
+\end{enumerate}
+
+\section{计算题}
+
+当\(x=-1,1,2\)时，对应的函数值分别为\(f(x)=-3,0,4\)，求\(f(x)\)的二次拉格朗日插值插值多项式，并给出插值余项。\\
+\textbf{解}：
+
+取\(x_0=-1,x_1=1,x_2=2,y_0=-3,y_1=0,y_2=4\)
+\begin{align*}
+    L_2(x) & =y_0\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}+y_1\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}+y_2\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}\\
+    & =-3\cdot\frac{(x-1)(x-2)}{(-2)\cdot(-3)}+4\cdot\frac{(x+1)(x-1)}{3\cdot1}\\
+    & =\frac{5}{6}x^2+\frac{3}{2}x-\frac{7}{3}
+\end{align*}
+
+插值余项
+\[
+R_n(x)=\frac{f^{(3)}(\xi)}{3!}(x-x_0)(x-x_1)(x-x_2)=\frac{f^{(3)}(\xi)}{3!}(x+1)(x-1)(x-2)
+\]
+
+\vspace{4em}
+已知
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \(x_1\) & 1 & 3 & 4 & 5 \\
+        \hline
+        \(f(x_i)\) & 2 & 6 & 5 & 4 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+分别用拉格朗日插值法和牛顿插值法求\(f(x)\)的三次插值多项式\(P_3(x)\)\\
+\textbf{解}：
+\[
+L_3(x)=2\tfrac{(x-3)(x-4)(x-5)}{(1-3)(1-4)(1-5)}+6\tfrac{(x-1)(x-4)(x-5)}{(3-1)(3-4)(3-5)}+5\tfrac{(x-1)(x-3)(x-5)}{(4-1)(4-3)(4-5)}+4\tfrac{(x-1)(x-3)(x-4)}{(5-1)(5-3)(5-4)}
+\]
+
+差商表为
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \(x_i\) & \(y_i\) & \text{一阶均差} & \text{二阶均差} & \text{三阶均差} \\
+        \hline
+        1 & 2 & & & \\
+        \hline
+        3 & 6 & 2 & & \\
+        \hline
+        4 & 5 & -1 & -1 & \\
+        \hline
+        5 & 4 & -1 & 0 & 1/4 \\
+        \hline
+    \end{tabular}
+\end{center}
+\[
+P_3(x)=N_3(x)=2+2(x-1)-(x-1)(x-3)+\frac{1}{4}(x-1)(x-3)(x-4)
+\]
+
+\vspace{4em}
+已知下列函数表：
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \(x\) & 0 & 1 & 2 & 3 \\
+        \hline
+        \(f(x)\) & 1 & 3 & 9 & 27 \\
+        \hline
+    \end{tabular}
+\end{center}
+\begin{enumerate}
+    \item 写出相应的三次拉格朗日插值多项式；
+    \item 作均差表，写出相应的三次 Newton 插值多项式，并计算\(f(1.5)\)的近似值。
+\end{enumerate}
+\textbf{解}：
+
+（1）
+\begin{align*}
+    L_3(x) & =\tfrac{(x-1)(x-2)(x-3)}{(0-1)(0-2)(0-3)}+\tfrac{(x-0)(x-2)(x-3)}{(1-0)(1-2)(1-3)}+\tfrac{(x-0)(x-1)(x-3)}{(2-0)(2-1)(2-3)}+\tfrac{(x-0)(x-1)(x-2)}{(3-0)(3-1)(3-2)}\\
+    & =\tfrac{4}{3}x^3-2x^2+\tfrac{8}{3}x+1
+\end{align*}
+
+
+（2）差商表：
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \(x_i\) & \text{一阶差商} & \text{二阶差商} & \text{三阶差商} & \text{四阶差商}\\
+        \hline
+        0 & 1 & & & \\
+        \hline
+        1 & 3 & 2 & & \\
+        \hline
+        2 & 9 & 6 & 2 & \\
+        \hline
+        3 & 27 & 18 & 6 & 4/3 \\
+        \hline
+    \end{tabular}
+\end{center}
+\begin{gather*}
+    N_3(x)=1+2x+2x(x-1)+\frac{4}{3}x(x-1)(x-2)\\
+    f(1.5)\approx N_3(1.5)=5
+\end{gather*}
+
+\vspace{4em}
+依据如下函数值表：
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \(x\) & 0 & 1 & 2 & 4 \\
+        \hline
+        \(f(x)\) & 1 & 9 & 23 & 3 \\
+        \hline
+    \end{tabular}
+\end{center}
+\begin{enumerate}
+    \item 建立三次Lagrange插值多项式，并给出插值余项；
+    \item 建立三次 Newton 插值多项式，要求列出差商表。
+\end{enumerate}
+\textbf{解}：
+
+（1）
+\begin{align*}
+    L_3(x) & =1\tfrac{(x-1)(x-2)(x-4)}{(0-1)(0-2)(0-4)}+9\tfrac{(x-0)(x-2)(x-4)}{(1-0)(1-2)(1-4)}+23\tfrac{(x-0)(x-1)(x-4)}{(2-0)(2-1)(2-4)}+3\tfrac{(x-0)(x-1)(x-2)}{(4-0)(4-1)(4-2)}\\
+    & =-\frac{11}{4}x^3+\frac{45}{4}x^2-\frac{1}{2}x+1
+\end{align*}
+
+插值余项：
+\[
+R_3(x)=\frac{f^{(4)}(\xi)}{4!}x(x-1)(x-2)(x-4)
+\]
+
+（2）
+建立差商表如下
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \(x_i\) & \(f(x_i)\) & \(f[x_i,x_j]\) & \(f[x_i,x_j,x_k]\) & \(f[x_i,x_j,x_k,x_l]\) \\
+        \hline
+        0 & 1 & & & \\
+        \hline
+        1 & 9 & 8 & & \\
+        \hline
+        2 & 23 & 14 & 3 & \\
+        \hline
+        4 & 3 & -10 & -8 & -11/4\\
+        \hline
+    \end{tabular}
+\end{center}
+
+Newton 前插公式为
+\[
+N_3(x)=-\frac{11}{4}(x-2)(x-1)x+3(x-1)x+8x+1
+\]
+
+\vspace{4em}
+已知\(f(x)\)的以下下数据：
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \(x\) & 1 & 2 & 3 \\
+        \hline
+        \(f(x)\) & 1.0000 & 1.4142 & 1.7321 \\
+        \hline
+    \end{tabular}
+\end{center}
+\begin{enumerate}
+    \item 求以如上数据为插值结点的 Lagrange 多项式；
+    \item 给定数据表\(f(x)=\ln x\)数据表\begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            \(x_i\) & 2.20 & 2.40 & 2.60 & 2.80 \\
+            \hline
+            \(f(x_i)\) & 0.78846 & 0.87547 & 0.95551 & 1.02962 \\
+            \hline
+        \end{tabular}
+    \end{center}构造差商表，写出三次 Newton 差商插值多项式\(N_3(x)\)。
+\end{enumerate}
+\textbf{解}：
+
+（l）
+
+Lagrange 插值多项式为：
+\begin{align*}
+    L_2(x) & =1.0\tfrac{(x-2)(x-3)}{(1-2)(1-3)}+1.4142\tfrac{(x-1)(x-3)}{(2-1)(2-3)}+1.7321\tfrac{(x-1)(x-2)}{(3-1)(3-2)}\\
+    & =-0.04815x^2+0.55865x+0.4895
+\end{align*}
+
+（2）
+
+差商表如下：
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \(x_i\) & \(f(x_i)\) & \text{一阶差商} & \text{二阶差商} & \text{三阶差商} \\
+        \hline
+        2.20 & 0.78846 & & & \\
+        \hline
+        2.40 & 0.87547 & 0.43505 & & \\
+        \hline
+        2.60 & 0.95551 & 0.40010 & -0.087375 & \\
+        \hline
+        2.80 & 1.02962 & 0.37055 & -0.073875 & 0.02250 \\
+        \hline
+    \end{tabular}
+\end{center}
+\begin{align*}
+    N_3(x) & =0.78846+0.43505(x-2.20)-0.087375(x-2.20)(x-2.40)\\
+    & +0.0225(x-2.20)(x-2.40)(x-2.60)
+\end{align*}
+
+\chapter{最小二乘法}
+
+\subsection*{给定数据表}
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \(x\) & 1 & 2 & 3 & 4 \\
+        \hline
+        \(y\) & 0.8 & 0.75 & 0.6 & 0.5 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+求一次最小二乘拟合多项式。\\
+\textbf{解}：
+
+令\(S(x)=a_0+a_1x,\varphi_0(x)=1,\varphi_1(x)=x,m=3n=1\)
+\begin{gather*}
+    (\varphi_0,\varphi_0)=\sum_{i=0}^31=4,(\varphi_0,\varphi_1)=\sum_{i=0}^3x_i=10,(\varphi_1,\varphi_1)=\sum_{i=0}^3x_i^2=30\\
+    (\varphi_0,y)=\sum_{i=0}^3y_i=2.65,(\varphi_1,y)=\sum_{i=0}^3=x_iy_i=6.1
+\end{gather*}
+
+得方程组：
+\[
+\begin{cases}
+    4a_0+10a_1=2.65\\
+    10a_0+30a_1=6.1
+\end{cases}
+\]
+
+解得：
+\[
+\begin{cases}
+    a_0=0.925\\
+    a_1=-0.105
+\end{cases}
+\Rightarrow S(x)=-0.105x+0.925
+\]
+
+\subsection*{电流通过电阻，用伏安法测得的电压电流如表}
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        \(I\)(A) & 1 & 2 & 4 & 6 & 8 & 10 \\
+        \hline
+        \(U\)(V) & 1.8 & 3.7 & 8.2 & 12.0 & 15.8 & 20.2 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+用最小二乘法处理数据。\\
+\textbf{解}：
+
+1.确定\(U=\varphi(I)\)的形式。将数据点描绘在坐标上可以看出这些点在一条直线的附近，故用线性拟合数据，即：
+\[
+U=a_0+a_1I
+\]
+
+2.建立方程组：
+\begin{gather*}
+    U=a_0+a_1I,m=6,\sum_{i=1}^6I_k=31,\sum_{i=1}^6i_k^2=221\\
+    \sum_{i=1}^6U_k=61.7,\sum_{i=1}^6I_kU_k=442.4
+\end{gather*}
+
+则法方程组为
+\[
+\begin{pmatrix}
+    6 & 31\\
+    31 & 221\\
+\end{pmatrix}
+\begin{pmatrix}
+    a_0\\
+    a_1\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+    61.7\\
+    442.4\\
+\end{pmatrix}
+\]
+
+3.求经验公式，解所得法方程组得：
+\[
+a_0=-0.215,a_1=2.032
+\]
+
+所求经验公式为
+\[
+U=-0.215+2.032I
+\]
+
+\chapter{数值积分}
+
+\section{填空题}
+\begin{enumerate}
+    \item 梯形公式具有\underline{1}次代数精度，Simpson 公式有\underline{3}次代数精度。
+    \item 复化 Simpson 求积公式为：\(S_n(f)=\frac{h}{6}\left[f(x_0)+2\sum\limits_{i=1}^{n-1}f(x_i)+f(x_n)+4\sum\limits_{i=1}^{n-1}f(x_{i+1/2})\right]\)，该公式是\underline{4}阶收敛的。
+    \item 求定积分\(\int_a^bf(x)\,\mathrm{d}x\)的 Simpson 公式为\(S(f)=\frac{b-a}{6}\left[f(a)+4f\left(\frac{a+b}{2}\right)+f(b)\right]\)，该数值求积公式具有\underline{3}次代数精度。
+    \item 复化 Simpson 求积公式为：\(S_n(f)=\frac{h}{6}\left[f(x_0)+2\sum\limits_{i=1}^{n-1}f(x_i)+f(x_n)+4\sum\limits_{i=1}^{n-1}f(x_{i+1/2})\right]\)，该公式是\underline{4}阶收敛的。
+    \item 当\(n=2\)时的 Newton--Cotes 求积公式为\(\int_a^bf(x)\,\mathrm{d}x=\frac{b-a}{6}\left[f(a)+4f\left(\frac{b+a}{2}\right)+f(b)\right]\)，该公式的代数精度为\underline{3}次。
+\end{enumerate}
+
+\section{计算题}
+
+求积公式\(\int_0^1f(x)\,\mathrm{d}x\approx A_0f(0)+A_1f(1)+B_0f'(0)\)，已知其余项表达式为\(R(f)=kf''(\xi),\xi\in(0,1)\)，试确定系数\(A_0,A_1,B_0\)，使该求积公式具有尽可能高的代数精度，并给出代数精度的次数及求积公式余项。\\
+\textbf{解}：
+
+本题虽然用到了\(f'(0)\)的值，仍用代数精度定义确定参数\(A_0,A_1,B_0\)。令\(f(x)= 1,x,x^2\)，分别代入求积公式，令公式两端相等，得：
+\[
+\begin{cases}
+    f(x)=1,A_0+A_1=1\\
+    f(x)=x,A_1+B_0=\frac{1}{2}\\
+    f(x)=x^2,A_1=\frac{1}{3}
+\end{cases}
+\]
+
+求得
+\[
+\begin{cases}
+    A_0=\frac{2}{3}\\
+    A_1=\frac{1}{3}\\
+    B_0=\frac{1}{6}
+\end{cases}
+\]
+
+则有
+\[
+\int_0^1f(x)\,\mathrm{d}x=\frac{2}{3}f(0)+\frac{1}{3}f(1)+\frac{1}{6}f'(0)
+\]
+
+再令\(f(x)=x^3\)，此时\(\int_0^1x^3\,\mathrm{d}x=\frac{1}{4}\)，而上式右端为\(\frac{1}{3}\)，两端不相等，故它的代数精度为2次。为求余项可将\(f(x)=x^3\)代入求积公式
+\[
+\int_0^1f(x)\,\mathrm{d}x=\frac{2}{3}f(0)+\frac{1}{3}f(1)+\frac{1}{6}f'(0)+kf''(\xi),\xi\in(0,1)
+\]
+
+当\(f(x)=x^3,f'(x)=3x^2,f''(x)=6x,f'''(x)=6\)，代入上式得
+\[
+\frac{1}{4}=\int_0^1x^3\,\mathrm{d}x=\frac{1}{3}+6k\Rightarrow k=-\frac{1}{72}
+\]
+
+所以余项
+\[
+R(f)=-\frac{1}{72}f''(\xi),\xi\in(0,1)
+\]
+
+\vspace{4em}
+求\(A,B\)使求积公式\(\int_{-1}^1f(x)\,\mathrm{d}x=A[f(-1)+f(1)]+B\left[f\left(-\frac{1}{2}\right)+f\left(\frac{1}{2}\right)\right]\)的代数精度尽量高，并求其代数精度；利用此公式求\(I=\int_1^2\frac{1}{x}\,\mathrm{d}x\)（保留四位小数）\\
+\textbf{解}：
+
+\(f(x)=1\)，\(x,x^2\)是精确成立，即：
+\[
+\begin{cases}
+    2A+2B=2\\
+    2A+\frac{1}{2}B=\frac{2}{3}
+\end{cases}
+\]
+
+得：
+\[
+A=\frac{1}{9},B=\frac{8}{9}
+\]
+
+求积公式为
+\[
+\int_{-1}^1f(x)\,\mathrm{d}x=\frac{1}{9}[f(-1)+f(1)]+\frac{8}{9}\left[f\left(-\frac{1}{2}\right)+f\left(\frac{1}{2}\right)\right]
+\]
+
+当\(f(x)=x^3\)时，公式显然精确成立，当\(f(x)=x^4\)时，左\(\frac{2}{5}\)，右\(\frac{1}{3}\)，所以代数精度为3。
+
+令\(t=2x-3\)
+\[
+\int_1^2\frac{1}{x}\,\mathrm{d}x=\int_{-1}^{1}\frac{1}{t+3}\,\mathrm{d}x=\frac{1}{9}\left(\frac{1}{-1+3}+\frac{1}{1+3}\right)+\frac{8}{9}\left(\frac{1}{-\frac{1}{2}+3}+\frac{1}{\frac{1}{2}+3}\right)=\frac{97}{140}\approx0.69286
+\]
+
+\vspace{4em}
+根据下面给出的函数\(f(x)=\frac{\sin x}{x}\)的数据表，分别用复合梯形公式和复合辛甫生公式计算\(I=\int_0^1\frac{\sin x}{x}\,\mathrm{d}x\)
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \(x_k\) & 0.0000 & 0.125 & 0.250 & 0.375 & 0.500 \\
+        \hline
+        \(f(x_k)\) & 1 & 0.9973784 & 0.98961584 & 0.97672675 & 0.95885108 \\
+        \hline
+        \(x_k\) & 0.625 & 0.750 & 0.875 & 1.000 & \\
+        \hline
+        \(f(x_k)\) & 0.93615563 & 0.90885168 & 0.8719257 & 0.8417098 & \\
+        \hline
+    \end{tabular}
+\end{center}
+\textbf{解}：
+
+用复合梯形公式，这里\(n=8\)，\(h=\frac{1}{8}=0.125\)
+\begin{align*}
+    I & =\int_0^1\frac{\sin x}{x}\,\mathrm{d}x\\
+    & \approx\frac{0.125}{2}\left\{f(0)+2\left[f\left(\frac{1}{8}\right)+f\left(\frac{2}{8}\right)+\left(\frac{3}{8}\right)+f\left(\frac{4}{8}\right)+f\left(\frac{5}{8}\right)+f\left(\frac{6}{8}\right)+f\left(\frac{7}{8}\right)\right]+f(1)\right\}\\
+    & =0.94569086
+\end{align*}
+
+用复合辛甫生公式，这里\(n=4,h=\frac{1}{4}\)，可得
+\begin{align*}
+    I & =\int_0^1\frac{\sin x}{x}\,\mathrm{d}x\\
+    & \approx\frac{0.25}{6}\left\{f(0)+4\left[f\left(\frac{1}{8}\right)+f\left(\frac{3}{8}\right)+\left(\frac{5}{8}\right)+f\left(\frac{7}{8}\right)\right]+2\left[f\left(\frac{2}{8}\right)+f\left(\frac{4}{8}\right)+f\left(\frac{6}{8}\right)\right]+f(1)\right\}\\
+    & =0.946083305
+\end{align*}
+
+\vspace{4em}
+试用梯形公式和 Simpson 公式计算定积分。\(\int_0^110x^4\,\mathrm{d}x\)，并与精确解比较，指出有几位有效数字。\\
+\textbf{解}：
+
+梯形公式：
+\[
+T=\frac{1}{2}(f(0)+f(1))=0.5\times10=5
+\]
+
+Simpson 公式：
+\[
+S=\frac{1}{6}(f(0)+4f(0.5)+f(1))\approx0.20833\times10=2.0833
+\]
+
+精确解：
+\[
+\int_0^110x^4\,\mathrm{d}x=0.2\times10=2
+\]
+
+经过与精确解比较得知：
+\begin{itemize}
+    \item 梯形公式的计算结果有0位有效数字；
+    \item Simpson 公式的计算结果有1位有效数字。
+\end{itemize}
+
+\vspace{4em}
+选择函数\(a\)，使\(\int_0^hf(x)\,\mathrm{d}x=\frac{h}{2}[f(0)+f(h)]+ah^2[f'(0)+f'(h)]\)的代数精度尽量高，并求其代数精度。\\
+\textbf{解}：
+
+取\(f(x)=1\)，则上述求积公式中：左\(=h\)，右\(=h(1+1)/2=h\)，故左=右。
+
+取\(f(x)=x\)，则左\(=\frac{h^2}{2}\)，右\(=\frac{h^2}{2}+ah^2(1+1)\)。令\(\frac{h^2}{2}=\frac{h^2}{2}+ah^2(1+1)\)，得\(a=0\)再取\(f(x)=x^2\)，则左\(\neq\)右。当取\(a=0\)时，求积公式具有1次代数精度。
+
+\chapter{解线性代数的直接方法}
+
+\section{计算题}
+
+将矩阵\(A\)分解为单位下三角矩陈和上三角矩阵\(U\)，其中\(A=\begin{pmatrix}
+    1 & 2 & 6 \\
+    2 & 5 & 15 \\
+    6 & 15 & 46 \\
+\end{pmatrix}\)然后求解该方程组\(Ax=\begin{pmatrix}
+    2 \\
+    3 \\
+    4 \\
+\end{pmatrix}\)。\\
+\textbf{解}：
+\[
+C=\begin{pmatrix}
+    1 & & \\
+    2 & 1 & \\
+    6 & 3 & 1 \\
+\end{pmatrix}
+\begin{pmatrix}
+    1 & 2 & 6 \\
+    & 1 & 3 \\
+    & & 1 \\
+\end{pmatrix}
+\]
+
+求解\(Ly=b\)得
+\[
+y=\begin{pmatrix}
+    2 \\
+    -1 \\
+    -5 \\
+\end{pmatrix}
+\]
+
+求解\(Ux=y\)得方程的解为：
+\[
+x=\begin{pmatrix}
+    4 \\
+    14 \\
+    -5 \\
+\end{pmatrix}
+\]
+
+\vspace{4em}
+直接分解法对\(A=\begin{pmatrix}
+    2 & 2 & 3 \\
+    4 & 7 & 7 \\
+    -2 & 4 & 8 \\
+\end{pmatrix}\)作\(LU\)分解，\(L\)为单位下三角阵，给出\(L\)和\(U\)的具体形式。\\
+\textbf{解}：
+\[
+L=\begin{pmatrix}
+    1 & 0 & 0 \\
+    2 & 1 & 0 \\
+    -1 & 2 & 1 \\
+\end{pmatrix},
+U=\begin{pmatrix}
+    2 & 2 & 3 \\
+    0 & 3 & 1 \\
+    0 & 0 & 9 \\
+\end{pmatrix}
+\]
+
+\vspace{4em}
+用直接三角形分解 Doolittle 法解方程组（不选主元）
+\[
+\begin{pmatrix}
+    2 & 3 & 4 & 5 \\
+    4 & 8 & 11 & 14 \\
+    6 & 13 & 20 & 26 \\
+    8 & 18 & 29 & 40 \\
+\end{pmatrix}
+\begin{pmatrix}
+    x_1 \\
+    x_2 \\
+    x_3 \\
+    x_4 \\
+\end{pmatrix}
+=\begin{pmatrix}
+    14 \\
+    37 \\
+    65 \\
+    95 \\
+\end{pmatrix}
+\]
+\textbf{解}：
+\begin{gather*}
+L=\begin{pmatrix}
+    1 & & & \\
+    2 & 1 & & \\
+    3 & 2 & 1 & \\
+    4 & 3 & 2 & 1\\
+\end{pmatrix},
+U=\begin{pmatrix}
+    2 & 3 & 4 & 5 \\
+    & 2 & 3 & 4 \\
+    & & 2 & 3 \\
+    & & & 2 \\
+\end{pmatrix}\\
+y=(14,9,5,2)^\top,x=(1,1,1,1)^\top
+\end{gather*}
+
+\vspace{4em}
+给定方程组\(Ax=b\)，其中\(A=\begin{pmatrix}
+    1 & 0 & 2 & 0 \\
+    0 & 1 & 0 & 1 \\
+    1 & 2 & 3 & 4 \\
+    0 & 1 & 0 & 3 \\
+\end{pmatrix},b=\begin{pmatrix}
+    4 \\
+    3 \\
+    13 \\
+    5 \\
+\end{pmatrix}\)。
+\begin{enumerate}
+    \item 用矩阵的直接三角分解法，给出矩阵\(A\)的的\(LU\)分解，并求方程组解；
+    \item 计算\(\|A\|_1\)，\(\|A\|_\infty\)，\(\|b\|_1\)，\(\|b\|_2\)，\(\|b\|_\infty\)。
+\end{enumerate}
+\textbf{解}：
+
+矩阵\(A\)的\(LU\)分解为：
+\[
+\begin{pmatrix}
+    1 & & & \\
+    0 & 1 & & \\
+    1 & 2 & 1 & \\
+    0 & 1 & 0 & 1\\
+\end{pmatrix}
+\begin{pmatrix}
+    1 & 0 & 2 & 0 \\
+    & 1 & 0 & 1 \\
+    & & 2 & 1 \\
+    & & & 2 \\
+\end{pmatrix}
+\]
+
+方程组的精确解为：
+\[
+x=\begin{pmatrix}
+    2 \\
+    2 \\
+    1 \\
+    1 \\
+\end{pmatrix}
+\]
+
+计算结果为：
+\[
+\|A\|_1=8,\|A\|_\infty=10,\|b\|_1=25,\|b\|_2=\sqrt{219}\approx14.79865,\|b\|_\infty=13
+\]
+
+\chapter{解线性方程组得迭代解法}
+
+\section{填空题}
+\begin{enumerate}
+    \item 对矩阵\(A=\begin{pmatrix}
+        2 & 2 & 3 \\
+        4 & 7 & 9 \\
+        -2 & 4 & 8 \\
+    \end{pmatrix}\)，\(\|A\|_\infty=\underline{20}\)，对向量\(b=(4,-3,9)^\top\)，\(\|b\|_\infty=\underline{9}\)。
+    \item 对任意初始向量，求解线性方程组\(Ax=b\)的迭代公式\(x^{k+1}=Gx^k+g,k=0,1,\ldots\)，产生的向量序列收敛到方程组唯一解的充分必要条件是\underline{矩阵\(G\)的谱半径\(\rho(G)<1\)}
+    \item 已知\(x=(1,-2)^\top,A=\begin{pmatrix}
+        1 & -2 \\
+        -3 & 4 \\
+    \end{pmatrix}\)，则\(\|x\|_1=3,\|Ax\|_1=\underline{16}\)。
+    \item 已知\(x=(1,2)^\top,A=\begin{pmatrix}
+        1 & -2 \\
+        -3 & 4 \\
+    \end{pmatrix}\)，则\(\|x\|_2=\underline{\sqrt{5}},\|Ax\|_1=\underline{8}\)。
+    \item 已知\(A=\begin{pmatrix}
+        10 & -1 & -2 \\
+        2 & 7 & -3 \\
+        1 & -2 & 6 \\
+    \end{pmatrix},b=\begin{pmatrix}
+        7 \\
+        6 \\
+        5 \\
+    \end{pmatrix}\)，如果用 Gauss-Seidel 迭代法解\(Ax=b\)的近似解，迭代公式为\(\begin{cases}
+        x_1^{n+1}=(7+x_2^n+2x_3^n)/10\\
+        x_2^{n+1}=(6-2x_1^{n+1}+3x_3^n)/7\\
+        x_3^{n+1}=(5-x_1^{n+1}+2x_2^{n+1})/6
+    \end{cases}\)由于\underline{系数矩阵\(A\)为按行主对角占优}的原因，所以迭代法\underline{收敛}（提示：填写收敛或发散）。
+    \item 对上题的方程组\(Ax=b\)，如果要用 Guass 消去法求解方程组的精确解，则消元过程\underline{能}（请选择“能”或“不能”）进行下去，理由是：\underline{系数矩阵\(A\)按行主对角占优}。
+\end{enumerate}
+
+\section{计算题}
+
+给定线性方程组\(\begin{cases}
+    6x_1+3x_2+12x_3=36\\
+    8x_1-3x_2+2x_3=20\\
+    4x_1+11x_2-x_3=33
+\end{cases}\)适当调整方程组，给出收敛的 Gauss-Seidel 迭代公式。\\
+\textbf{解}：
+
+将原方程改写为
+\[
+\begin{cases}
+    x_1=\frac{1}{2}(-x_1-4x_3+12)\\
+    x_2=\frac{1}{3}(8x_1+2x_3-20)\\
+    x_3=4x_1+11x_3-33
+\end{cases}
+\]
+
+Gauss-Seidel 公式为
+\[
+\begin{cases}
+    x_1^{(k+1)}=\frac{1}{2}(-x_1^{(k)}-4x_3^{(k)}+12)\\
+    x_2^{(k+1)}=\frac{1}{3}(8x_1^{(k+1)}+2x_3^{(k)}-20)\\
+    x_3^{(k+1)}=4x_1^{(k+1)}+11x_3^{(k+1)}-33
+\end{cases}
+\]
+
+\vspace{4em}
+对方程组\(\begin{cases}
+    3x_1+2x_2+10x_3=15\\
+    10x_1-4x_2-x_3=5\\
+    2x_1+10x_2-4x_3=8
+\end{cases}\)
+\begin{enumerate}
+    \item 试建立一种收敛的 Seidel 迭代公式，说明理由；\label{que:1}
+    \item 取初值\(x^{(0)}=(0,0,0)^\top\)，利用(题\ref{que:1})中建立的迭代公式求解，要求\(\|x^{(k+1)}-x^{(k)}\|_\infty<10^{-3}\)。
+\end{enumerate}
+\textbf{解}：
+
+调整方程组的位置，使系数矩阵严格对角占优：
+\[
+\begin{cases}
+    10x_1-4x_2-x_3=5\\
+    2x_1+10x_2-4x_3=8\\
+    3x_1+2x_2+10x_3=15
+\end{cases}
+\]
+
+故对应的高斯--赛德尔迭代法收敛，迭代格式为：
+\[
+\begin{cases}
+    x_1^{(k+1)}=\frac{1}{10}(4x_2^{(k)}+x_3^{(k)}+5)\\
+    x_2^{(k+1)}=\frac{1}{10}(-2x_1^{(k+1)}+4x_3^{(k)}+8)\\
+    x_3^{(k+1)}=\frac{1}{10}(-3x_1^{(k+1)}-2x_2^{(k+1)}+10)
+\end{cases}
+\]
+
+取\(x^{(0)}=(0,0,0)^\top\)，经7步迭代可得：
+\[
+x^*~x^{(7)}=(0.999991459,0.999950326,1.000010)^\top
+\]
+
+\vspace{4em}
+给定方程组\(\begin{cases}
+    5x_1-x_2-x_3-x_4=7\\
+    -x_1+7x_2-2x_3-x_4=2\\
+    -x_1-2x_2-8x_3-x_4=3\\
+    -x_1-2x_2-5x_4=-9
+\end{cases}\)。
+\begin{enumerate}
+    \item 写出 Jacobi 迭代法的迭代公式，判断其收敛性；
+    \item 写出 Gauss-Seidel 迭代法的迭代公式，判断其收敛性。
+\end{enumerate}
+\textbf{解}：
+
+(1) Jacobi 迭代公式为：
+\[
+\begin{cases}
+    x_1^{k+1}=\frac{1}{5}(7+x_2^k+x_3^k+x_4^k)\\
+    x_2^{k+1}=\frac{1}{7}(2+x_1^k+2x_3^k+x_4^k)\\
+    x_3^{k+1}=-\frac{1}{8}(3+x_1^k+2x_2^k+x_4^k)\\
+    x_4^{k+1}=-\frac{1}{5}(-9+x_1^k+2x_2^k)
+\end{cases}(k=0,1,2,\ldots)
+\]
+
+系数矩阵是主对角占优矩阵，故 Jacobi 迭代法收敛。
+
+(2) Gauss-Seidel迭代法公式为：
+\[
+\begin{cases}
+    x_1^{k+1}=\frac{1}{5}(7+x_2^k+x_3^k+x_4^k)\\
+    x_2^{k+1}=\frac{1}{7}(2+x_1^k+2x_3^k+x_4^k)\\
+    x_3^{k+1}=-\frac{1}{8}(3+x_1^k+2x_2^k+x_4^k)\\
+    x_4^{k+1}=-\frac{1}{5}(-9+x_1^k+2x_2^k)
+\end{cases}(k=0,1,2,\ldots)
+\]
+
+系数矩阵是主对角占优矩阵，故 Gauss--Seidel 迭代法收敛。
+
+\vspace{4em}
+对方程组\(\begin{cases}
+    3x_1+2x_2+10x_3=15\\
+    10x_1-4x_2-x_3=5\\
+    2x_1+10x_2-4x_3=8
+\end{cases}\)
+\begin{enumerate}
+    \item 试建立一种收敛的 Seidel 迭代公式，说明理由；\label{que:2}
+    \item 取初值\(x^{(0)}=(0,0,0)^\top\)，利用(题\ref{que:2})中建立的迭代公式求解，要求\(\|x^{(k+1)}-x^{(k)}\|_\infty<10^{-3}\)。
+\end{enumerate}
+\textbf{解}：
+
+调整方程组的位置，使系数矩阵严格对角占优：
+\[
+\begin{cases}
+    3x_1+2x_2+10x_3=15\\
+    10x_1-4x_2-x_3=5\\
+    2x_1+10x_2-4x_3=8
+\end{cases}
+\]
+
+故对应的高斯--塞德尔迭代法收敛。迭代格式为：
+\[
+\begin{cases}
+    x_1^{(k+1)}=\frac{1}{10}(4x_2^{(k)}+x_3^{(k)}+5)\\
+    x_2^{(k+1)}=\frac{1}{10}(-2x_1^{(k+1)}+4x_3^{(k)}+8)\\
+    x_3^{(k+1)}=\frac{1}{10}(-3x_1^{(k+1)}-2x_2^{(k+1)}+15)
+\end{cases}
+\]
+
+取\(x^{(0)}=(0,0,0)^\top\)，经7步迭代可得：
+\[
+x^*\approx x^{(7)}=(0.999991459,0.999950326,1.000010)^\top
+\]
+
+\chapter{方程求根}
+
+\section{填空题}
+\begin{enumerate}
+    \item 对方程\(f(x)=(x-5)^3(x+2)\)，可用牛顿迭代格式\underline{\(x_{k+1}=x_k-\frac{f(x_k)}{f'(x_k)}\)}求方程根的近似值，署取初值为-1.5，牛顿迭代格式收敛阶至少为\underline{2}，若取初值4.5，牛顿迭代格式收敛阶为\underline{1}，若采用修正的牛顿迭代格式\underline{\(x_{k+1}=x_k-3\frac{f(x_k)}{f'(x_k)}\)}，可使得修正的牛顿迭代格式至少二阶收敛。
+    \item 方程\(x^3-x-1=0\)在区间\([1,2]\)根的牛顿迭代格式为\underline{\(x_{k+1}=x_k-\frac{f(x_k)}{f'(x_k)}=\frac{2x_k^3+1}{3x_k^2-1}\)}。
+\end{enumerate}
+
+\section{计算题}
+
+用迭代法求方程\(f(x)=x^3+4x^2-10\)，在\([1,1.5]\)内的根，判断送代格式的收敛性
+\begin{enumerate}
+    \item \(x_{k+1}=x_k^3+4x_k^2+x_k-10\)；
+    \item \(x_{k+1}=\sqrt{\frac{10}{x_k+4}}\)。
+\end{enumerate}
+\textbf{解}：
+(1)取\(x_0=1,x_{k+1}=x_k^3+4x_k^2+x_k-10\)
+\[
+x_1=-4,x_2=-14,x_3=-1984
+\]
+
+因此此送代格式发散
+
+\(\varphi(x)=x^3+4x^2+x-10\)
+\[
+\varphi'(x)=3x^2+8x,\varphi''(x)=6x+8,\varphi'''(x)=6>1
+\]
+
+因此，此迭代格式发散
+
+(2)取\(x_0=0,x_{k+1}=\sqrt{\frac{10}{x_k+4}}\)
+
+\(x_1=1.5811\)，\(x_2=1.3386\)，根为1.3386，此迭代方法收敛
+
+\vspace{4em}
+用牛顿法求方程\(xe^x-1=0\)的根，\(x_0=0.5\)，计算结果准确到四位有效数字。\\
+\textbf{解}：
+
+根据牛顿法得：
+\[
+x_{k+1}=x_k-\frac{x_ke^{x_k}-1}{(1+x_k)e^{x_k}}
+\]
+
+取迭代结果如下表
+\begin{center}
+    \begin{tabular}{|c|c|}
+        \hline
+        \(k\) & \(x_k\) \\
+        \hline
+        0 & 0.5 \\
+        \hline
+        1 & 0.57102 \\
+        \hline
+        2 & 0.56716 \\
+        \hline
+        3 & 0.56714 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+所以，方程的根约为0.56714
+
+\vspace{4em}
+为求方程\(x^3-x^2-1=0\)在\(x_0=1.5\)附近的一个根，要求：
+\begin{enumerate}
+    \item 给出求解方程根的两种迭代公式；
+    \item 判断两种迭代公式的收敛性；
+    \item 写出求解上述方程的Newton送代公式。
+\end{enumerate}
+\textbf{解}：
+
+(1)方程的三种等价形式为：
+\begin{enumerate}
+    \item \(x=1+\frac{1}{x^2}\)，相应的迭代公式为：\(x_{n+1}=1+\frac{1}{x_n^2}\)；
+    \item \(x^3=1+x^2\)，相应的迭代公式为：\(x_{n+1}=\sqrt[3]{1+x_n^2}\)。
+\end{enumerate}
+
+(2)令\(\varphi(x)=1+\frac{1}{x^2},|\varphi'(1.5)|=\frac{2}{1.5^3}<1\)第一种迭代法收敛。
+
+令\(\varphi(x)=\sqrt[3]{1+x^2},|\varphi'(1.5)|=\frac{2}{3}\times\frac{1.5}{(1+1.5^2)^\frac{2}{3}}=(\frac{\sqrt{8}}{1+2.25})^\frac{2}{3}<1\)第二种迭代法收敛。
+
+(3)直线的两点公式为：
+\[
+\frac{y-y_0}{x-x_0}=k
+\]
+
+把\(y_k=f(x_k)=x_k^3-x_k^2-1,y_{k+1}=0,k=f'(x_k)=3x_k^2-2x_k^1\)带入方程整理得：
+\[
+x_{k+1}=x_k-\frac{x_k^3-x_k^2-1}{3x_k-2x_k}=\frac{2}{3}x_k+\frac{1}{9}+\frac{1}{9}\frac{2x_k-9}{3x_k^2-2x_k}
+\]
+
+\vspace{4em}
+用牛顿迭代法计算\(\sqrt{0.78265}\)的近似值（保留四位有效数字）。\\
+\textbf{解}：
+
+令\(x=\sqrt{0.78265}\)问题转化为求\(f(x)=x^2-0.78265=0\)的正根。
+
+由牛顿迭代公式：\(x_{k+1}=x_k-\frac{f(x_k)}{f'(x_k)}=x_k-\frac{x_k^2-0.78265}{2x_k}\)取\(x_0=0.88\)迭代结果
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \(k\) & 0 & 1 & 2 & 3 \\
+        \hline
+        \(x_k\) & 0.880000 & 0.884688 & 0.884675 & 0.884675 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+满足了精度要求：\(\sqrt{0.78265}\approx0.8847\)。
+
+\end{document}

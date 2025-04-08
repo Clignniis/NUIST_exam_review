@@ -1,0 +1,98 @@
+\contentsline {chapter}{\numberline {第一章\hspace {.3em}}引论}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}误差来源、分类}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}误差、有效数字}{1}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}绝对误差、绝对误差限}{1}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}相对误差、相对误差限}{1}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}有效数字}{1}{subsection.1.2.3}%
+\contentsline {subsubsection}{对于“四舍五入”的绝对误差限的说明}{2}{subsubsection*.2}%
+\contentsline {subsection}{\numberline {1.2.4}数值计算的误差估计}{2}{subsection.1.2.4}%
+\contentsline {subsection}{\numberline {1.2.5}避免误差危害}{2}{subsection.1.2.5}%
+\contentsline {subsection}{\numberline {1.2.6}多项式求值的秦九韶算法}{3}{subsection.1.2.6}%
+\contentsline {chapter}{\numberline {第二章\hspace {.3em}}插值法}{4}{chapter.2}%
+\contentsline {section}{\numberline {2.1}预备知识}{4}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}函数逼近}{4}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}插值问题}{4}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}插值多项式的存在为唯一性}{4}{subsection.2.1.3}%
+\contentsline {section}{\numberline {2.2}插值基函数与Lagrange插值}{4}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}计算}{4}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}推广}{5}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Lagrange插值误差}{5}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}牛顿插值}{6}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}计算}{6}{subsection.2.3.1}%
+\contentsline {subsubsection}{牛顿插值公式}{6}{subsubsection*.3}%
+\contentsline {subsection}{\numberline {2.3.2}等距节点的牛顿插值（了解）}{7}{subsection.2.3.2}%
+\contentsline {subsubsection}{前插公式（\(x\)在\(x_0\)附近）}{7}{subsubsection*.4}%
+\contentsline {subsubsection}{后插公式（\(x\)在\(x_n\)附近）}{7}{subsubsection*.5}%
+\contentsline {section}{\numberline {2.4}分段插值}{8}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}分段线性 Lagrange 插值}{8}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}分段2次插值}{8}{subsection.2.4.2}%
+\contentsline {section}{\numberline {2.5}厄米特插值}{8}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}两点三次插值}{8}{subsection.2.5.1}%
+\contentsline {chapter}{\numberline {第三章\hspace {.3em}}最小二乘法}{9}{chapter.3}%
+\contentsline {section}{\numberline {3.1}定义}{9}{section.3.1}%
+\contentsline {section}{\numberline {3.2}计算}{9}{section.3.2}%
+\contentsline {section}{\numberline {3.3}常用正交多项式}{10}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}勒让德多项式}{10}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}切比雪夫多项式}{11}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}矛盾方程组求解}{11}{section.3.4}%
+\contentsline {chapter}{\numberline {第四章\hspace {.3em}}数值积分}{12}{chapter.4}%
+\contentsline {section}{\numberline {4.1}基本思路}{12}{section.4.1}%
+\contentsline {section}{\numberline {4.2}公式}{12}{section.4.2}%
+\contentsline {section}{\numberline {4.3}机械求积}{12}{section.4.3}%
+\contentsline {section}{\numberline {4.4}代数精度---衡量求积公式的精度}{13}{section.4.4}%
+\contentsline {section}{\numberline {4.5}复化求积公式}{14}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}复化梯形公式}{15}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}复化 simpson 公式}{15}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}复化 cotes 公式}{15}{subsection.4.5.3}%
+\contentsline {section}{\numberline {4.6}复化求积公式余项}{15}{section.4.6}%
+\contentsline {chapter}{\numberline {第五章\hspace {.3em}}解线性方程的直接方法}{16}{chapter.5}%
+\contentsline {section}{\numberline {5.1}非奇异矩阵}{16}{section.5.1}%
+\contentsline {section}{\numberline {5.2}矩阵的特征值与谱半径}{16}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Gauss 消去法}{16}{section.5.3}%
+\contentsline {section}{\numberline {5.4}列主元素 Gauss 消元法}{17}{section.5.4}%
+\contentsline {section}{\numberline {5.5}直接三角分解法（重点考察）}{17}{section.5.5}%
+\contentsline {section}{\numberline {5.6}不选主元的 Doolittle 分解（重点考察）}{18}{section.5.6}%
+\contentsline {section}{\numberline {5.7}列主元的 Doolittle 分解（了解）}{18}{section.5.7}%
+\contentsline {section}{\numberline {5.8}平方根法（系数矩阵为正定对称矩阵）}{19}{section.5.8}%
+\contentsline {subsection}{\numberline {5.8.1}正定矩阵}{19}{subsection.5.8.1}%
+\contentsline {subsection}{\numberline {5.8.2}平方根的改进方法}{19}{subsection.5.8.2}%
+\contentsline {chapter}{\numberline {第六章\hspace {.3em}}解线性方程组的迭代解法}{20}{chapter.6}%
+\contentsline {section}{\numberline {6.1}定义}{20}{section.6.1}%
+\contentsline {section}{\numberline {6.2}距离函数应满足的性质}{20}{section.6.2}%
+\contentsline {section}{\numberline {6.3}P范数}{20}{section.6.3}%
+\contentsline {section}{\numberline {6.4}向量间的距离}{20}{section.6.4}%
+\contentsline {section}{\numberline {6.5}矩阵范数}{21}{section.6.5}%
+\contentsline {section}{\numberline {6.6}算子范数}{21}{section.6.6}%
+\contentsline {section}{\numberline {6.7}线性方程组的送代解法}{21}{section.6.7}%
+\contentsline {subsection}{\numberline {6.7.1}G-S法}{22}{subsection.6.7.1}%
+\contentsline {subsection}{\numberline {6.7.2}G--S 法}{23}{subsection.6.7.2}%
+\contentsline {subsection}{\numberline {6.7.3}SOR法}{23}{subsection.6.7.3}%
+\contentsline {subsection}{\numberline {6.7.4}J法}{24}{subsection.6.7.4}%
+\contentsline {subsection}{\numberline {6.7.5}G--S法}{24}{subsection.6.7.5}%
+\contentsline {subsection}{\numberline {6.7.6}SOR法（了解）}{24}{subsection.6.7.6}%
+\contentsline {chapter}{\numberline {第七章\hspace {.3em}}方程求根}{25}{chapter.7}%
+\contentsline {section}{\numberline {7.1}收敛}{25}{section.7.1}%
+\contentsline {section}{\numberline {7.2}二分法求根}{25}{section.7.2}%
+\contentsline {section}{\numberline {7.3}不动点迭代}{25}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Newton 迭代法}{25}{section.7.4}%
+\contentsline {section}{\numberline {7.5}牛顿下山法}{26}{section.7.5}%
+\contentsline {section}{\numberline {7.6}弦截法迭代}{26}{section.7.6}%
+\contentsline {section}{\numberline {7.7}迭代加速}{26}{section.7.7}%
+\contentsline {chapter}{\numberline {附录 A\hspace {.3em}}引论}{27}{appendix.A}%
+\contentsline {section}{\numberline {A.1}填空题}{27}{section.A.1}%
+\contentsline {section}{\numberline {A.2}计算题}{27}{section.A.2}%
+\contentsline {chapter}{\numberline {附录 B\hspace {.3em}}插值法}{29}{appendix.B}%
+\contentsline {section}{\numberline {B.1}填空题}{29}{section.B.1}%
+\contentsline {section}{\numberline {B.2}计算题}{29}{section.B.2}%
+\contentsline {chapter}{\numberline {附录 C\hspace {.3em}}最小二乘法}{33}{appendix.C}%
+\contentsline {chapter}{\numberline {附录 D\hspace {.3em}}数值积分}{35}{appendix.D}%
+\contentsline {section}{\numberline {D.1}填空题}{35}{section.D.1}%
+\contentsline {section}{\numberline {D.2}计算题}{35}{section.D.2}%
+\contentsline {chapter}{\numberline {附录 E\hspace {.3em}}解线性代数的直接方法}{39}{appendix.E}%
+\contentsline {section}{\numberline {E.1}计算题}{39}{section.E.1}%
+\contentsline {chapter}{\numberline {附录 F\hspace {.3em}}解线性方程组得迭代解法}{41}{appendix.F}%
+\contentsline {section}{\numberline {F.1}填空题}{41}{section.F.1}%
+\contentsline {section}{\numberline {F.2}计算题}{41}{section.F.2}%
+\contentsline {chapter}{\numberline {附录 G\hspace {.3em}}方程求根}{45}{appendix.G}%
+\contentsline {section}{\numberline {G.1}填空题}{45}{section.G.1}%
+\contentsline {section}{\numberline {G.2}计算题}{45}{section.G.2}%
