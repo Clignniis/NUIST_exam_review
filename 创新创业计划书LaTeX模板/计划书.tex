@@ -1,7 +1,7 @@
 %注意，该模板需要中文字体支持，建议在 Windows 系统上用 TeX Live 软件并使用 XeLaTeX 编译器进行编译。
 %在设置标题页时，部分信息的填写采用了表格嵌套的方式，在填写时请注意。
 %导言区需要修改的内容使用了多个百分号在其后方以示意修改。
-%因为黑体字体没有更高的字重，对于要求中的黑体加粗在这里采用的是微软雅黑加粗。
+%因为黑体字体没有更高的字重，对于要求中的黑体加粗在这里采用的是微软雅黑加粗。我真的不理解为什么要黑体加粗？？？话说回来，以下字体不当使用可能存在侵权问题！！！
 \PassOptionsToPackage{quiet}{xeCJK}%抑制字体警告
 \documentclass[a4paper,oneside]{ctexbook}
 % 中文默认字体：宋体，粗体以黑体代替，斜体以楷书代替
@@ -29,7 +29,7 @@
 \titlecontents{subsection}[1.8em]{\zihao{-4}}{\thecontentslabel}{}{\titlerule*[3pt]{.}\thecontentspage}
 %标题页
 \usepackage{graphicx,array}
-\title{\includegraphics[scale=0.6]{name}\\\bfseries\zihao{-0}敢创会创-大学生\\\bfseries\zihao{-0}创新创业实务}
+\title{\includegraphics[scale=0.6]{name}\\\bfseries\zihao{-0}敢创会创-大学生\\\bfseries\zihao{-0}创新创业实务}%校名矢量图来自 https://www.nuist.edu.cn/xybs/list.htm 我修改了字体颜色，并将svg文件转化为了pdf
 \author{\bfseries\zihao{-0}项目计划书\\}
 \date{\Large\begin{tabular}{|>{\centering\arraybackslash}p{3cm}<{}|>{\centering\arraybackslash}p{10cm}<{}|}
     \hline
@@ -94,7 +94,7 @@
 %设置行距
 \linespread{1.56}\selectfont
 
-\begin{document}
+\begin{document}%如何呢？终于开头了，其实这种水课只要排版统一就行，你要是真的严格执行，那用同学word不炸了吗？
 
 \maketitle
 
@@ -153,6 +153,14 @@
 
 这里对表格\ref{1}，和图片\ref{2}进行交叉引用
 
+文本内容文本内容文本内容文本内容文本内容文本内容
+文本内容文本内容文本内容文本内容文本内容文本内容
+
+\subsection{这又是新的一小小节}
+
+文本内容文本内容文本内容文本内容文本内容文本内容
+文本内容文本内容文本内容文本内容文本内容文本内容
+文本内容文本内容文本内容文本内容文本内容文本内容
 文本内容文本内容文本内容文本内容文本内容文本内容
 文本内容文本内容文本内容文本内容文本内容文本内容
 
